@@ -1,0 +1,6 @@
+use_frameworks!
+target 'WiremockClient_Tests' do
+  pod 'WiremockClient', :path => '../'
+  
+  
+end

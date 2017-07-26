@@ -36,6 +36,8 @@ public class ResponseDefinition {
     internal var bodyFileName: String?
     internal var headers: [String: String]?
     
+    public init() {}
+    
     //----------------------------------
     // MARK: Response Builder Methods
     //----------------------------------

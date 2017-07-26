@@ -1,6 +1,6 @@
 //
 //  WiremockClient.swift
-//  WiremockClient
+//  NewWiremockClient
 //
 //  Created by Ted Rothrock on 6/24/17.
 //  Copyright © 2017 Ted Rothrock. All rights reserved.
@@ -73,6 +73,19 @@ public struct WiremockClient {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 print("Error deleting all mappings: \(error.localizedDescription)")
+                return
+            }
+        }
+        task.resume()
+    }
+    
+    public static func resetAllScenarios() {
+        guard let url = URL(string: "\(baseURL)/__admin/scenarios/reset") else {return}
+        var request = URLRequest(url: url)
+        request.httpMethod = RequestMethod.POST.rawValue
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error resetting all scenarios: \(error.localizedDescription)")
                 return
             }
         }

@@ -35,6 +35,7 @@ public class ResponseDefinition {
     internal var proxyBaseUrl: String?
     internal var bodyFileName: String?
     internal var headers: [String: String]?
+    public var json: [String: Any]?
     
     public init() {}
     
@@ -94,6 +95,7 @@ public class ResponseDefinition {
             
             let data = try Data(contentsOf: responseUrl)
             let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments])
+            self.json = json as? [String: Any]
             let dataWithoutSpecialChars = try JSONSerialization.data(withJSONObject: json, options: [])
             guard let jsonString = String(data: dataWithoutSpecialChars, encoding: .utf8) else {throw ResponseDefintionError.unableToConvertData}
             self.body = jsonString

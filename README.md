@@ -114,6 +114,8 @@ WiremockClient.postMapping(stubMapping:
 )
 ```
 
+A public `json` variable is also included as part of the ResponseDefinition object to allow for easy access to locally stored JSON, e.g. for injecting in unit tests.
+
 ### Proxying
 
 As in the Java API, requests can be proxied through to other hosts. A full explanation of this method can be found in the [Proxying](http://wiremock.org/docs/proxying/) portion of the documentation:

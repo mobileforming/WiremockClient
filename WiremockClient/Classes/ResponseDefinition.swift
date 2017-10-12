@@ -49,6 +49,11 @@ public class ResponseDefinition {
         return self
     }
     
+    public func withHeaders(_ headers: [String: String] = [:]) -> ResponseDefinition {
+        self.headers = headers
+        return self
+    }
+    
     public func withStatus(_ status: Int) -> ResponseDefinition {
         self.status = status
         return self
@@ -57,14 +62,6 @@ public class ResponseDefinition {
     public func withStatusMessage(_ statusMessage: String) -> ResponseDefinition {
         self.statusMessage = statusMessage
         return self
-    }
-    
-    public func withStatus(status: Int, statusMessage: String?, headers: [String: String], body: Any) -> ResponseDefinition {
-        self.status = status
-        self.statusMessage = statusMessage
-        self.headers = headers
-        
-        return withBody(body)
     }
     
     public func withBody(_ body: Any) -> ResponseDefinition {

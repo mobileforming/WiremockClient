@@ -59,6 +59,14 @@ public class ResponseDefinition {
         return self
     }
     
+    public func withStatus(status: Int, statusMessage: String?, headers: [String: String], body: Any) -> ResponseDefinition {
+        self.status = status
+        self.statusMessage = statusMessage
+        self.headers = headers
+        
+        return withBody(body)
+    }
+    
     public func withBody(_ body: Any) -> ResponseDefinition {
         switch body {
         

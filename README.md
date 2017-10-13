@@ -1,6 +1,5 @@
 # WiremockClient
 
-[![CI Status](http://img.shields.io/travis/theodore.rothrock@gmail.com/WiremockClient.svg?style=flat)](https://travis-ci.org/theodore.rothrock@gmail.com/WiremockClient)
 [![Version](https://img.shields.io/cocoapods/v/WiremockClient.svg?style=flat)](http://cocoapods.org/pods/WiremockClient)
 [![License](https://img.shields.io/cocoapods/l/WiremockClient.svg?style=flat)](http://cocoapods.org/pods/WiremockClient)
 [![Platform](https://img.shields.io/cocoapods/p/WiremockClient.svg?style=flat)](http://cocoapods.org/pods/WiremockClient)
@@ -96,7 +95,7 @@ WiremockClient.postMapping(stubMapping:
             ResponseDefinition()
                 .withStatus(200)
                 .withStatusMessage("Great jorb!")
-                .withHeader(key: "Content-Type", value: "text/plain")
+                .withHeaders(["Pragma": "no-cache", "Connection": "keep-alive"])
                 .withBody("Just a plain old text body")
     )
 )
@@ -136,7 +135,7 @@ WiremockClient also supports scenarios as described in the [Stateful Behavior](h
 
 ```swift
 WiremockClient.postMapping(stubMapping:
-    StubMapping.stubFor(requestMethod: .GET, urlMatchCondition: .urlEqualTo, url: "/my/path")
+    StubMapping.stubFor(requestMethod: .GET, urlMatchCondition: .urlEqualTo, url: "http://localhost:8080/my/path")
         .inScenario("Scenario Title")
         .whenScenarioStateIs("Required Scenario State")
         .willSetStateTo("New Scenario State")
@@ -161,7 +160,7 @@ Updating a mapping requires a reference to it’s UUID. When a mapping is create
 let myMappingID = UUID()
 
 WiremockClient.postMapping(stubMapping:
-    StubMapping.stubFor(requestMethod: .GET, urlMatchCondition: .urlEqualTo, url: "/my/path")
+    StubMapping.stubFor(requestMethod: .GET, urlMatchCondition: .urlEqualTo, url: "http://localhost:8080/my/path")
         .withUUID(myMappingID)
         .willReturn(
             ResponseDefinition()
@@ -170,7 +169,7 @@ WiremockClient.postMapping(stubMapping:
 )
 
 WiremockClient.updateMapping(uuid: myMappingID, stubMapping:
-    StubMapping.stubFor(requestMethod: .GET, urlMatchCondition: .urlEqualTo, url: "/my/path")
+    StubMapping.stubFor(requestMethod: .GET, urlMatchCondition: .urlEqualTo, url: "http://localhost:8080/my/path")
         .willReturn(
             ResponseDefinition()
             .withStatus(404)
@@ -186,7 +185,7 @@ Similar to updating a mapping, deleting a mapping requires a reference to it’s
 let myMappingID = UUID()
 
 WiremockClient.postMapping(stubMapping:
-    StubMapping.stubFor(requestMethod: .GET, urlMatchCondition: .urlEqualTo, url: "/my/path")
+    StubMapping.stubFor(requestMethod: .GET, urlMatchCondition: .urlEqualTo, url: "http://localhost:8080/my/path")
         .withUUID(myMappingID)
         .willReturn(
             ResponseDefinition()

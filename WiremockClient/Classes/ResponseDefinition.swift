@@ -81,6 +81,16 @@ public class ResponseDefinition {
             }
             break
             
+        case let json as [[String: Any]]:
+            do {
+                let data = try JSONSerialization.data(withJSONObject: json, options: [])
+                guard let jsonString = String(data: data, encoding: .utf8) else {throw ResponseDefintionError.unableToConvertData}
+                self.body = jsonString
+            } catch {
+                print("Error adding body to ResponseDefinition: \(error.localizedDescription)")
+            }
+            break
+
         default:
             print("Unable to handle response body of type \(type(of: body))")
             break

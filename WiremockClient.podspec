@@ -13,6 +13,7 @@ WiremockClient is an HTTP client that allows users to interact with a standalone
   s.source           = { :git => 'https://github.com/mobileforming/WiremockClient.git', :tag => '1.1.2' }
 
   s.ios.deployment_target = '9.0'
+  s.osx.deployment_target = '10.10'
 
   s.source_files = 'WiremockClient/Classes/**/*'
 end

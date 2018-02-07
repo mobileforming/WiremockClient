@@ -54,25 +54,25 @@ public struct WiremockClient {
     }
     
     public static func saveAllMappings() {
-        postCommandToServer(urlCommand: "\(baseURL)/__admin/mappings/save", errorMessage: "Error saving all mappings")
+        postCommandToServer(urlCommand: "__admin/mappings/save", errorMessage: "Error saving all mappings")
     }
     
     public static func reset() {
-        postCommandToServer(urlCommand: "\(baseURL)/__admin/reset", errorMessage: "Error deleting all mappings")
+        postCommandToServer(urlCommand: "__admin/reset", errorMessage: "Error deleting all mappings")
     }
     
     public static func resetAllScenarios() {
-        postCommandToServer(urlCommand: "\(baseURL)/__admin/scenarios/reset", errorMessage: "Error resetting all scenarios")
+        postCommandToServer(urlCommand: "__admin/scenarios/reset", errorMessage: "Error resetting all scenarios")
     }
     
     public static func shutdownServer()  {
-        postCommandToServer(urlCommand: "\(baseURL)/__admin/shutdown", errorMessage: "Error shutting down the server")
+        postCommandToServer(urlCommand: "__admin/shutdown", errorMessage: "Error shutting down the server")
     }
     
     /// MARK: Private methods
     
     private static func postCommandToServer(urlCommand: String, errorMessage: String) {
-        guard let url = URL(string: urlCommand) else {return}
+        guard let url = URL(string: "\(baseURL)/\(urlCommand)") else {return}
         var request = URLRequest(url: url)
         request.httpMethod = RequestMethod.POST.rawValue
         let task = URLSession.shared.dataTask(with: request) { data, response, error in

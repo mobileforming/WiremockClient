@@ -54,41 +54,33 @@ public struct WiremockClient {
     }
     
     public static func saveAllMappings() {
-        guard let url = URL(string: "\(baseURL)/__admin/mappings/save") else {return}
-        var request = URLRequest(url: url)
-        request.httpMethod = RequestMethod.POST.rawValue
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print("Error saving all mappings: \(error.localizedDescription)")
-                return
-            }
-        }
-        task.resume()
+        postCommandToServer(urlCommand: "__admin/mappings/save", errorMessage: "Error saving all mappings")
     }
     
     public static func reset() {
-        guard let url = URL(string: "\(baseURL)/__admin/reset") else {return}
+        postCommandToServer(urlCommand: "__admin/reset", errorMessage: "Error deleting all mappings")
+    }
+    
+    public static func resetAllScenarios() {
+        postCommandToServer(urlCommand: "__admin/scenarios/reset", errorMessage: "Error resetting all scenarios")
+    }
+    
+    public static func shutdownServer()  {
+        postCommandToServer(urlCommand: "__admin/shutdown", errorMessage: "Error shutting down the server")
+    }
+    
+    /// MARK: Private methods
+    
+    private static func postCommandToServer(urlCommand: String, errorMessage: String) {
+        guard let url = URL(string: "\(baseURL)/\(urlCommand)") else {return}
         var request = URLRequest(url: url)
         request.httpMethod = RequestMethod.POST.rawValue
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
-                print("Error deleting all mappings: \(error.localizedDescription)")
-                return
+                print("\(errorMessage): \(error.localizedDescription)")
             }
         }
         task.resume()
     }
     
-    public static func resetAllScenarios() {
-        guard let url = URL(string: "\(baseURL)/__admin/scenarios/reset") else {return}
-        var request = URLRequest(url: url)
-        request.httpMethod = RequestMethod.POST.rawValue
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print("Error resetting all scenarios: \(error.localizedDescription)")
-                return
-            }
-        }
-        task.resume()
-    }
 }

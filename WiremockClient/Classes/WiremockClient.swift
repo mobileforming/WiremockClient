@@ -53,6 +53,29 @@ public struct WiremockClient {
         task.resume()
     }
     
+    /// Synchrounous call to the server to see if it is up and running
+    /// If there is a mappings element returned, and no error, we should be good.
+    public static func isServerRunning() -> Bool {
+        let semaphore = DispatchSemaphore(value: 0)
+        guard let url = URL(string: "\(baseURL)/__admin/mappings") else { return false }
+        var request = URLRequest(url: url)
+        request.httpMethod = RequestMethod.GET.rawValue
+        var isRunning = false;
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Received and error from the server: \(error.localizedDescription)")
+            } else {
+                if let data = data {
+                    isRunning = String(data: data, encoding: .utf8)!.contains("\"mappings\" :")
+                }
+            }
+            semaphore.signal();
+        }
+        task.resume()
+        semaphore.wait()
+        return isRunning
+    }
+    
     public static func saveAllMappings() {
         postCommandToServer(urlCommand: "__admin/mappings/save", errorMessage: "Error saving all mappings")
     }

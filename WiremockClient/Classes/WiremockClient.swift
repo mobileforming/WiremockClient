@@ -63,7 +63,7 @@ public struct WiremockClient {
         var isRunning = false;
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
-                print("Received and error from the server: \(error.localizedDescription)")
+                print("Received an error from the server: \(error.localizedDescription)")
             } else {
                 if let data = data {
                     isRunning = String(data: data, encoding: .utf8)!.contains("\"mappings\" :")

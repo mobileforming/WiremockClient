@@ -29,13 +29,15 @@ extension ResponseDefintionError: LocalizedError {
 
 public class ResponseDefinition {
     
-    internal var status: Int?
-    internal var statusMessage: String?
-    internal var body: String?
-    internal var proxyBaseUrl: String?
-    internal var bodyFileName: String?
-    internal var headers: [String: String]?
+    var status: Int?
+    var statusMessage: String?
+    var body: String?
+    var proxyBaseUrl: String?
+    var bodyFileName: String?
+    var headers: [String: String]?
+    
     public var json: [String: Any]?
+    public var data: Data?
     
     public init() {}
     
@@ -74,6 +76,7 @@ public class ResponseDefinition {
         case let json as [String: Any]:
             do {
                 let data = try JSONSerialization.data(withJSONObject: json, options: [])
+                self.data = data
                 guard let jsonString = String(data: data, encoding: .utf8) else {throw ResponseDefintionError.unableToConvertData}
                 self.body = jsonString
             } catch {
@@ -84,6 +87,7 @@ public class ResponseDefinition {
         case let json as [[String: Any]]:
             do {
                 let data = try JSONSerialization.data(withJSONObject: json, options: [])
+                self.data = data
                 guard let jsonString = String(data: data, encoding: .utf8) else {throw ResponseDefintionError.unableToConvertData}
                 self.body = jsonString
             } catch {
@@ -109,6 +113,7 @@ public class ResponseDefinition {
             guard let responseUrl = bundle.url(forResource: fileName, withExtension: "json", subdirectory: fileSubdirectory) else {throw ResponseDefintionError.fileNotFound}
             
             let data = try Data(contentsOf: responseUrl)
+            self.data = data
             let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments])
             self.json = json as? [String: Any]
             let dataWithoutSpecialChars = try JSONSerialization.data(withJSONObject: json, options: [])

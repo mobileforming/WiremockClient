@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'WiremockClient'
-  s.version          = '1.2.0'
+  s.version          = '1.2.1'
   s.summary          = 'An HTTP client for Wiremock standalone instances'
 
   s.description      = <<-DESC

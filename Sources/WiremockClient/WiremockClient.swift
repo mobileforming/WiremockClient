@@ -35,6 +35,31 @@ public struct WiremockClient {
         makeSynchronousRequest(request: request, errorMessagePrefix: "Error deleting mapping")
     }
     
+    
+    /// Verify that a request has been made to the wiremock server.
+    ///
+    /// - Parameter mapping: the request mapping to filter against
+    /// - Returns: the first matching request or nil if nothing was found
+    public static func verify(requestMapping: RequestMapping) -> String? {
+        guard let url = URL(string: "\(baseURL)/__admin/requests/find") else { return nil }
+        var request = URLRequest(url: url)
+        request.httpMethod = RequestMethod.POST.rawValue
+        request.httpBody = requestMapping.asRequestData()
+        let semaphore = DispatchSemaphore(value: 0)
+        var responseString = ""
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("error attempting to verify a request: \(error.localizedDescription)")
+            } else {
+                responseString = String(data: data!, encoding: .utf8)!
+            }
+            semaphore.signal()
+        }
+        task.resume()
+        semaphore.wait()
+        return responseString
+    }
+    
     /// Synchrounous call to the server to see if it is up and running
     /// If there is a mappings element returned, and no error, we should be good.
     public static func isServerRunning() -> Bool {

@@ -8,6 +8,6 @@
 
 import Foundation
 
-public enum RequestMethod: String {
+public enum RequestMethod: String, Codable {
     case GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD, TRACE, ANY
 }

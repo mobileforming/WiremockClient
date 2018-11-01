@@ -30,11 +30,11 @@ The example json from wiremock.org when only requests are returned.
 
  */
 
-internal struct AllRequests: Codable {
-    public var requests: [Request]
+internal struct AllLoggedRequests: Codable {
+    public var requests: [LoggedRequest]
 }
 
-public struct Request: Codable {
+public struct LoggedRequest: Codable {
     public var url: String?
     public var absoluteUrl: String?
     public var method: RequestMethod?
@@ -105,7 +105,7 @@ public class RequestMapping {
         self.request.bodyPatterns?.append(bodyPatternDict)
         return self
     }
-
+    
     //----------------------------------
     // MARK: Mapping to Data Conversion
     //----------------------------------
@@ -167,6 +167,14 @@ public class RequestMapping {
     internal func asRequestData() -> Data? {
         return try? JSONSerialization.data(withJSONObject: requestDict(), options: [.prettyPrinted])
     }
-
     
+}
+
+extension RequestMapping: CustomStringConvertible {
+    public var description: String {
+        guard let data = asRequestData(), let stringVal = String(data: data, encoding: .utf8) else {
+            return "{}"
+        }
+        return stringVal
+    }
 }

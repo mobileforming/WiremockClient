@@ -8,6 +8,10 @@
 
 import Foundation
 
+enum WiremockClientError: Error {
+    case verficationError(String)
+}
+
 public struct WiremockClient {
     
     public static var baseURL = "http://localhost:8080"
@@ -36,20 +40,42 @@ public struct WiremockClient {
     }
     
     
-    /// Verify that a request has been made to the wiremock server.
+    /// Verify that a request has been made to the wiremock server at least once.
     ///
-    /// - Parameter mapping: the request mapping to filter against
-    /// - Returns: the an array of matching requests or and empty array if nothing was found
-    public static func verify(requestMapping: RequestMapping) -> [Request] {
+    /// - Parameter mapping: the request mapping to filter on
+    /// - Throws: a verfication error if there was not matching request
+    public static func verify(requestMapping: RequestMapping) throws {
+        let requests = findRequests(requestMapping: requestMapping)
+        if requests.count < 1 {
+            throw WiremockClientError.verficationError("Did not find a matching request for the \(requestMapping) pattern")
+        }
+    }
+    
+    /// Verify that a request has been made to the wiremock server a specific number of times.
+    ///
+    /// - Parameter mapping: the request mapping to filter on
+    /// - Throws: a verfication error if the request was not matched the expected number of times
+    public static func verify(expectedCount: Int, requestMapping: RequestMapping) throws {
+        let requests = findRequests(requestMapping: requestMapping)
+        if requests.count != expectedCount  {
+            throw WiremockClientError.verficationError("Did not find a matching request for the \(requestMapping) pattern")
+        }
+    }
+    
+    /// Looks up all requests matching a given pattern
+    ///
+    /// - Parameter requestMapping: the request mapping to filter on
+    /// - Returns: an array of LoggedRequest objects or an empty array if there was no match
+    public static func findRequests(requestMapping: RequestMapping) -> [LoggedRequest] {
         guard let url = URL(string: "\(baseURL)/__admin/requests/find") else { return [] }
         var request = URLRequest(url: url)
         request.httpMethod = RequestMethod.POST.rawValue
         request.httpBody = requestMapping.asRequestData()
         let responseData =  makeSynchronousRequest(request: request, errorMessagePrefix: "Error attempting to verify a request")
-        var returnRequests: [Request] = []
+        var returnRequests: [LoggedRequest] = []
         let decoder = JSONDecoder()
         if let json = responseData {
-            let requests = try! decoder.decode(AllRequests.self, from: json)
+            let requests = try! decoder.decode(AllLoggedRequests.self, from: json)
             returnRequests = requests.requests
         }
         return returnRequests

@@ -75,8 +75,9 @@ public struct WiremockClient {
         var returnRequests: [LoggedRequest] = []
         let decoder = JSONDecoder()
         if let json = responseData {
-            let requests = try! decoder.decode(AllLoggedRequests.self, from: json)
-            returnRequests = requests.requests
+            if let requests = try? decoder.decode(AllLoggedRequests.self, from: json) {
+                returnRequests = requests.requests
+            }
         }
         return returnRequests
     }

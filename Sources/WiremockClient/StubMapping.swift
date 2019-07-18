@@ -136,6 +136,7 @@ public class StubMapping {
     let keyCookies          = "cookies"
     let keyBasicAuth        = "basicAuthCredentials"
     let keyBodyPatterns     = "bodyPatterns"
+    let keyTransformers     = "transformers"
     
     internal func asData() -> Data? {
         
@@ -249,6 +250,12 @@ public class StubMapping {
             
             if let headers = response.headers {
                 responseDict[keyHeaders] = headers
+            }
+            
+            // Transformers
+            
+            if let transformers = response.transformers {
+                responseDict[keyTransformers] = transformers.map { $0.rawValue }
             }
         }
         

@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		9DA6925F22E0F78C002F014E /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA6925E22E0F78C002F014E /* Transformer.swift */; };
+		9DA6926022E0F7BA002F014E /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA6925E22E0F78C002F014E /* Transformer.swift */; };
 		OBJ_26 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_32 /* WiremockClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* WiremockClientTests.swift */; };
 		OBJ_34 /* WiremockClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "WiremockClient::WiremockClient::Product" /* WiremockClient.framework */; };
@@ -50,6 +52,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9DA6925E22E0F78C002F014E /* Transformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transformer.swift; sourceTree = "<group>"; };
 		OBJ_10 /* RequestPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPattern.swift; sourceTree = "<group>"; };
 		OBJ_11 /* ResponseDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseDefinition.swift; sourceTree = "<group>"; };
 		OBJ_12 /* StubMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubMapping.swift; sourceTree = "<group>"; };
@@ -134,6 +137,7 @@
 				OBJ_12 /* StubMapping.swift */,
 				OBJ_13 /* UrlPattern.swift */,
 				OBJ_14 /* WiremockClient.swift */,
+				9DA6925E22E0F78C002F014E /* Transformer.swift */,
 			);
 			name = WiremockClient;
 			path = Sources/WiremockClient;
@@ -202,6 +206,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = OBJ_5;
@@ -223,6 +228,7 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_26 /* Package.swift in Sources */,
+				9DA6925F22E0F78C002F014E /* Transformer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,6 +247,7 @@
 				OBJ_41 /* RequestMethod.swift in Sources */,
 				OBJ_42 /* RequestPattern.swift in Sources */,
 				OBJ_43 /* ResponseDefinition.swift in Sources */,
+				9DA6926022E0F7BA002F014E /* Transformer.swift in Sources */,
 				OBJ_44 /* StubMapping.swift in Sources */,
 				OBJ_45 /* UrlPattern.swift in Sources */,
 				OBJ_46 /* WiremockClient.swift in Sources */,

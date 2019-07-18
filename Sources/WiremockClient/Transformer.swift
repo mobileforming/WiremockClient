@@ -1,6 +1,6 @@
 //
 //  Transformer.swift
-//  WiremockClientPackageDescription
+//  WiremockClient
 //
 //  Created by Kyle Ohanian on 7/18/19.
 //

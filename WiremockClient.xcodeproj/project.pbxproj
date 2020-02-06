@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		5947BA9F23EC620E00340211 /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA6925E22E0F78C002F014E /* Transformer.swift */; };
 		597918602188FEF900D557EE /* RequestMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5979185E2188FEEF00D557EE /* RequestMapping.swift */; };
 		59E424EC21825848003EE1AE /* ResponseDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* ResponseDefinition.swift */; };
 		9DA6925F22E0F78C002F014E /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA6925E22E0F78C002F014E /* Transformer.swift */; };
@@ -241,6 +242,7 @@
 			buildActionMask = 0;
 			files = (
 				59E424EC21825848003EE1AE /* ResponseDefinition.swift in Sources */,
+				5947BA9F23EC620E00340211 /* Transformer.swift in Sources */,
 				OBJ_32 /* WiremockClientTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

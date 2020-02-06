@@ -35,6 +35,7 @@ public class ResponseDefinition {
     var proxyBaseUrl: String?
     var bodyFileName: String?
     var headers: [String: String]?
+    var transformers: [Transformer]?
     
     public var json: [String: Any]?
     public var data: Data?
@@ -127,6 +128,11 @@ public class ResponseDefinition {
     
     public func proxiedFrom(_ urlString: String) -> ResponseDefinition {
         self.proxyBaseUrl = urlString
+        return self
+    }
+    
+    public func withTransformers(_ transformers: [Transformer]) -> ResponseDefinition {
+        self.transformers = transformers
         return self
     }
 }

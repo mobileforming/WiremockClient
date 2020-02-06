@@ -5,7 +5,7 @@
 //  Created by Tony Eichelberger on 10/30/18.
 //
 
-import Cocoa
+import Foundation
 
 //----------------------------------
 // MARK: Codable Request objects

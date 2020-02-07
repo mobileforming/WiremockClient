@@ -8,6 +8,10 @@
 
 import Foundation
 
+enum WiremockClientError: Error {
+    case verficationError(String)
+}
+
 public struct WiremockClient {
     
     public static var baseURL = "http://localhost:8080"
@@ -17,7 +21,7 @@ public struct WiremockClient {
         var request = URLRequest(url: url)
         request.httpMethod = RequestMethod.POST.rawValue
         request.httpBody = stubMapping.asData()
-        makeSynchronousRequest(request: request, errorMessagePrefix: "Error posting mapping")
+        _ = makeSynchronousRequest(request: request, errorMessagePrefix: "Error posting mapping")
     }
     
     public static func updateMapping(uuid: UUID, stubMapping: StubMapping) {
@@ -25,37 +29,72 @@ public struct WiremockClient {
         var request = URLRequest(url: url)
         request.httpMethod = RequestMethod.PUT.rawValue
         request.httpBody = stubMapping.asData()
-        makeSynchronousRequest(request: request, errorMessagePrefix: "Error updating mapping")
+        _ = makeSynchronousRequest(request: request, errorMessagePrefix: "Error updating mapping")
     }
     
     public static func deleteMapping(uuid: UUID) {
         guard let url = URL(string: "\(baseURL)/__admin/mappings/\(uuid.uuidString)") else {return}
         var request = URLRequest(url: url)
         request.httpMethod = RequestMethod.DELETE.rawValue
-        makeSynchronousRequest(request: request, errorMessagePrefix: "Error deleting mapping")
+        _ = makeSynchronousRequest(request: request, errorMessagePrefix: "Error deleting mapping")
     }
     
-    /// Synchrounous call to the server to see if it is up and running
+    
+    /// Verify that a request has been made to the wiremock server at least once.
+    ///
+    /// - Parameter mapping: the request mapping to filter on
+    /// - Throws: a verfication error if there was not matching request
+    public static func verify(requestMapping: RequestMapping) throws {
+        let requests = findRequests(requestMapping: requestMapping)
+        if requests.count < 1 {
+            throw WiremockClientError.verficationError("Did not find a matching request for the \(requestMapping) pattern")
+        }
+    }
+    
+    /// Verify that a request has been made to the wiremock server a specific number of times.
+    ///
+    /// - Parameter mapping: the request mapping to filter on
+    /// - Throws: a verfication error if the request was not matched the expected number of times
+    public static func verify(expectedCount: Int, requestMapping: RequestMapping) throws {
+        let requests = findRequests(requestMapping: requestMapping)
+        if requests.count != expectedCount  {
+            throw WiremockClientError.verficationError("Did not find a matching request for the \(requestMapping) pattern")
+        }
+    }
+    
+    /// Looks up all requests matching a given pattern
+    ///
+    /// - Parameter requestMapping: the request mapping to filter on
+    /// - Returns: an array of LoggedRequest objects or an empty array if there was no match
+    public static func findRequests(requestMapping: RequestMapping) -> [LoggedRequest] {
+        guard let url = URL(string: "\(baseURL)/__admin/requests/find") else { return [] }
+        var request = URLRequest(url: url)
+        request.httpMethod = RequestMethod.POST.rawValue
+        request.httpBody = requestMapping.asRequestData()
+        let responseData =  makeSynchronousRequest(request: request, errorMessagePrefix: "Error attempting to verify a request")
+        var returnRequests: [LoggedRequest] = []
+        let decoder = JSONDecoder()
+        if let json = responseData {
+            if let requests = try? decoder.decode(AllLoggedRequests.self, from: json) {
+                returnRequests = requests.requests
+            }
+        }
+        return returnRequests
+    }
+    
+    /// This method calls to the server to see if it is up and running.
     /// If there is a mappings element returned, and no error, we should be good.
+    ///
+    /// - Returns: true if the server is running and ready to interact with
     public static func isServerRunning() -> Bool {
-        let semaphore = DispatchSemaphore(value: 0)
         guard let url = URL(string: "\(baseURL)/__admin/mappings") else { return false }
         var request = URLRequest(url: url)
         request.httpMethod = RequestMethod.GET.rawValue
-        var isRunning = false;
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print("Received an error from the server: \(error.localizedDescription)")
-            } else {
-                if let data = data {
-                    isRunning = String(data: data, encoding: .utf8)!.contains("\"mappings\" :")
-                }
-            }
-            semaphore.signal();
+        let responseData = makeSynchronousRequest(request: request, errorMessagePrefix: "Received an error from the server")
+        if let responseData = responseData, let responseString = String(data: responseData, encoding: .utf8) {
+            return responseString.contains("\"mappings\" :")
         }
-        task.resume()
-        semaphore.wait()
-        return isRunning
+        return false
     }
     
     public static func saveAllMappings() {
@@ -80,19 +119,24 @@ public struct WiremockClient {
         guard let url = URL(string: "\(baseURL)/\(urlCommand)") else {return}
         var request = URLRequest(url: url)
         request.httpMethod = RequestMethod.POST.rawValue
-        makeSynchronousRequest(request: request, errorMessagePrefix: errorMessagePrefix)
+        _ = makeSynchronousRequest(request: request, errorMessagePrefix: errorMessagePrefix)
     }
     
-    private static func makeSynchronousRequest(request: URLRequest, errorMessagePrefix: String) {
+    private static func makeSynchronousRequest(request: URLRequest, errorMessagePrefix: String) -> Data? {
         let semaphore = DispatchSemaphore(value: 0)
+        var responseData: Data? = nil
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 print("\(errorMessagePrefix): \(error.localizedDescription)")
+            } else {
+                responseData = data
             }
             semaphore.signal()
         }
         task.resume()
         semaphore.wait()
+        return responseData
     }
+
     
 }

@@ -21,6 +21,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		5947BA9F23EC620E00340211 /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA6925E22E0F78C002F014E /* Transformer.swift */; };
+		597918602188FEF900D557EE /* RequestMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5979185E2188FEEF00D557EE /* RequestMapping.swift */; };
+		59E424EC21825848003EE1AE /* ResponseDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* ResponseDefinition.swift */; };
 		9DA6925F22E0F78C002F014E /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA6925E22E0F78C002F014E /* Transformer.swift */; };
 		9DA6926022E0F7BA002F014E /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA6925E22E0F78C002F014E /* Transformer.swift */; };
 		OBJ_26 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
@@ -52,6 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5979185E2188FEEF00D557EE /* RequestMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestMapping.swift; sourceTree = "<group>"; };
 		9DA6925E22E0F78C002F014E /* Transformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transformer.swift; sourceTree = "<group>"; };
 		OBJ_10 /* RequestPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPattern.swift; sourceTree = "<group>"; };
 		OBJ_11 /* ResponseDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseDefinition.swift; sourceTree = "<group>"; };
@@ -135,6 +139,7 @@
 				OBJ_10 /* RequestPattern.swift */,
 				OBJ_11 /* ResponseDefinition.swift */,
 				OBJ_12 /* StubMapping.swift */,
+				5979185E2188FEEF00D557EE /* RequestMapping.swift */,
 				OBJ_13 /* UrlPattern.swift */,
 				OBJ_14 /* WiremockClient.swift */,
 				9DA6925E22E0F78C002F014E /* Transformer.swift */,
@@ -236,6 +241,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				59E424EC21825848003EE1AE /* ResponseDefinition.swift in Sources */,
+				5947BA9F23EC620E00340211 /* Transformer.swift in Sources */,
 				OBJ_32 /* WiremockClientTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -247,6 +254,7 @@
 				OBJ_41 /* RequestMethod.swift in Sources */,
 				OBJ_42 /* RequestPattern.swift in Sources */,
 				OBJ_43 /* ResponseDefinition.swift in Sources */,
+				597918602188FEF900D557EE /* RequestMapping.swift in Sources */,
 				9DA6926022E0F7BA002F014E /* Transformer.swift in Sources */,
 				OBJ_44 /* StubMapping.swift in Sources */,
 				OBJ_45 /* UrlPattern.swift in Sources */,

@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for transformers in ResponseDefinition
 - Minimum deployment target for tvOS to podspec
 - Support for verifying requests made to the Wiremock server
+### Removed
+- .swift-version file
 
 
 ## 1.2.1 - 2018-06-15

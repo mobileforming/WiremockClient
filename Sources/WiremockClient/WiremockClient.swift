@@ -16,6 +16,9 @@ public struct WiremockClient {
     
     public static var baseURL = "http://localhost:8080"
     
+    /// Adds a stub mapping to the Wiremock server.
+    ///
+    /// - Parameter stubMapping: The stub mapping to add
     public static func postMapping(stubMapping: StubMapping) {
         guard let url = URL(string: "\(baseURL)/__admin/mappings") else {return}
         var request = URLRequest(url: url)
@@ -24,6 +27,9 @@ public struct WiremockClient {
         _ = makeSynchronousRequest(request: request, errorMessagePrefix: "Error posting mapping")
     }
     
+    /// Replaces a stub mapping on the Wiremock server.
+    ///
+    /// - Parameter uuid: The identifier of the mapping to replace
     public static func updateMapping(uuid: UUID, stubMapping: StubMapping) {
         guard let url = URL(string: "\(baseURL)/__admin/mappings/\(uuid.uuidString)") else {return}
         var request = URLRequest(url: url)
@@ -32,6 +38,9 @@ public struct WiremockClient {
         _ = makeSynchronousRequest(request: request, errorMessagePrefix: "Error updating mapping")
     }
     
+    /// Deletes a stub mapping from the Wiremock server.
+    ///
+    /// - Parameter uuid: The identifier of the mapping to delete
     public static func deleteMapping(uuid: UUID) {
         guard let url = URL(string: "\(baseURL)/__admin/mappings/\(uuid.uuidString)") else {return}
         var request = URLRequest(url: url)
@@ -40,10 +49,10 @@ public struct WiremockClient {
     }
     
     
-    /// Verify that a request has been made to the wiremock server at least once.
+    /// Verifies that a request has been made to the Wiremock server at least once.
     ///
-    /// - Parameter mapping: the request mapping to filter on
-    /// - Throws: a verfication error if there was not matching request
+    /// - Parameter mapping: The request mapping to filter on
+    /// - Throws: A verfication error if there was no matching request
     public static func verify(requestMapping: RequestMapping) throws {
         let requests = findRequests(requestMapping: requestMapping)
         if requests.count < 1 {
@@ -51,10 +60,10 @@ public struct WiremockClient {
         }
     }
     
-    /// Verify that a request has been made to the wiremock server a specific number of times.
+    /// Verifies that a request has been made to the Wiremock server a specific number of times.
     ///
-    /// - Parameter mapping: the request mapping to filter on
-    /// - Throws: a verfication error if the request was not matched the expected number of times
+    /// - Parameter mapping: The request mapping to filter on
+    /// - Throws: A verfication error if the request was not matched the expected number of times
     public static func verify(expectedCount: Int, requestMapping: RequestMapping) throws {
         let requests = findRequests(requestMapping: requestMapping)
         if requests.count != expectedCount  {
@@ -62,10 +71,10 @@ public struct WiremockClient {
         }
     }
     
-    /// Looks up all requests matching a given pattern
+    /// Looks up all requests matching a given pattern.
     ///
-    /// - Parameter requestMapping: the request mapping to filter on
-    /// - Returns: an array of LoggedRequest objects or an empty array if there was no match
+    /// - Parameter requestMapping: The request mapping to filter on
+    /// - Returns: An array of LoggedRequest objects or an empty array if there was no match
     public static func findRequests(requestMapping: RequestMapping) -> [LoggedRequest] {
         guard let url = URL(string: "\(baseURL)/__admin/requests/find") else { return [] }
         var request = URLRequest(url: url)
@@ -82,7 +91,7 @@ public struct WiremockClient {
         return returnRequests
     }
     
-    /// This method calls to the server to see if it is up and running.
+    /// Calls to the server to see if it is up and running.
     /// If there is a mappings element returned, and no error, we should be good.
     ///
     /// - Returns: true if the server is running and ready to interact with
@@ -97,32 +106,48 @@ public struct WiremockClient {
         return false
     }
     
+    /// Persists all stub mappings to the `mappings` directory of the Wiremock server.
     public static func saveAllMappings() {
         postCommandToServer(urlCommand: "__admin/mappings/save", errorMessagePrefix: "Error saving all mappings")
     }
     
+    /// Removes all stub mappings and deletes request logs from the Wiremock server.
     public static func reset() {
-        postCommandToServer(urlCommand: "__admin/reset", errorMessagePrefix: "Error deleting all mappings")
+        postCommandToServer(urlCommand: "__admin/reset", errorMessagePrefix: "Error resetting the server")
     }
     
+    /// Resets the state of all scenarios to `start`.
     public static func resetAllScenarios() {
         postCommandToServer(urlCommand: "__admin/scenarios/reset", errorMessagePrefix: "Error resetting all scenarios")
     }
     
+    /// Shuts down the Wiremock server.
     public static func shutdownServer()  {
         postCommandToServer(urlCommand: "__admin/shutdown", errorMessagePrefix: "Error shutting down the server")
+    }
+    
+    /// Adds a delay to all responses from the Wiremock server.
+    ///
+    /// - Parameter delay: The time interval in milliseconds by which to delay all responses
+    public static func setGlobalDelay(_ delay: Int) {
+        guard let url = URL(string: "\(baseURL)/__admin/settings") else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = RequestMethod.POST.rawValue
+        let data = try? JSONSerialization.data(withJSONObject: ["fixedDelay": delay], options: [.prettyPrinted])
+        request.httpBody = data
+        makeSynchronousRequest(request: request, errorMessagePrefix: "Error adding global delay")
     }
     
     /// MARK: Private methods
     
     private static func postCommandToServer(urlCommand: String, errorMessagePrefix: String) {
-        guard let url = URL(string: "\(baseURL)/\(urlCommand)") else {return}
+        guard let url = URL(string: "\(baseURL)/\(urlCommand)") else { return }
         var request = URLRequest(url: url)
         request.httpMethod = RequestMethod.POST.rawValue
-        _ = makeSynchronousRequest(request: request, errorMessagePrefix: errorMessagePrefix)
+        makeSynchronousRequest(request: request, errorMessagePrefix: errorMessagePrefix)
     }
     
-    private static func makeSynchronousRequest(request: URLRequest, errorMessagePrefix: String) -> Data? {
+    @discardableResult private static func makeSynchronousRequest(request: URLRequest, errorMessagePrefix: String) -> Data? {
         let semaphore = DispatchSemaphore(value: 0)
         var responseData: Data? = nil
         let task = URLSession.shared.dataTask(with: request) { data, response, error in

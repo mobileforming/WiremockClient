@@ -27,6 +27,7 @@ extension ResponseDefintionError: LocalizedError {
     }
 }
 
+/// An object used to define the response to be returned by a Wiremock server. Refer to http://http://wiremock.org/docs/stubbing/ for more details.
 public class ResponseDefinition {
     
     var status: Int?
@@ -46,27 +47,48 @@ public class ResponseDefinition {
     // MARK: Response Builder Methods
     //----------------------------------
     
+    /// Adds a header to the Wiremock server response
+    ///
+    /// - Parameter key: The header key
+    /// - Parameter value: The header value
+    /// - Returns: The `ResponseDefinition` with updated headers
     public func withHeader(key: String, value: String) -> ResponseDefinition {
         self.headers = self.headers ?? [String: String]()
         self.headers?[key] = value
         return self
     }
     
+    /// Adds multiple headers to the Wiremock server response
+    ///
+    /// - Parameter headers: The headers to add
+    /// - Returns: The `ResponseDefinition` with updated headers
     public func withHeaders(_ headers: [String: String] = [:]) -> ResponseDefinition {
         self.headers = headers
         return self
     }
     
+    /// Updates the HTTP status code of the Wiremock server response
+    ///
+    /// - Parameter status: An HTTP status code
+    /// - Returns: The `ResponseDefinition` with an updated status code
     public func withStatus(_ status: Int) -> ResponseDefinition {
         self.status = status
         return self
     }
     
+    /// Updates the `statusMessage` of the Wiremock server response
+    ///
+    /// - Parameter statusMessage: A status message
+    /// - Returns: The `ResponseDefinition` with an updated status message
     public func withStatusMessage(_ statusMessage: String) -> ResponseDefinition {
         self.statusMessage = statusMessage
         return self
     }
     
+    /// Updates the body of the Wiremock server response
+    ///
+    /// - Parameter body: The body to return. Supported objects include `String`, `[String: Any]`, and `[[String: Any]]`.
+    /// - Returns: The `ResponseDefinition` with an updated body
     public func withBody(_ body: Any) -> ResponseDefinition {
         switch body {
         
@@ -103,11 +125,21 @@ public class ResponseDefinition {
         return self
     }
     
+    /// Updates the Wiremock server file name with which to populate the response body
+    ///
+    /// - Parameter fileName: The name of a file located in the __files directory of the Wiremock server. Its contents will be used to populate the response body.
+    /// - Returns: The `ResponseDefinition` with an updated body file name
     public func withBodyFile(_ fileName: String) -> ResponseDefinition {
         self.bodyFileName = fileName
         return self
     }
     
+    /// Updates the body of the Wiremock server response
+    ///
+    /// - Parameter fileName: The name of a local JSON file. Its contents will be used to populate the reponse body.
+    /// - Parameter fileBundleId: The identifier of the bundle where the file is located.
+    /// - Parameter fileSubdirectory: The path to the file.
+    /// - Returns: The `ResponseDefinition` with an updated local JSON body file
     public func withLocalJsonBodyFile(fileName: String, fileBundleId: String, fileSubdirectory: String?) -> ResponseDefinition {
         do {
             guard let bundle = Bundle(identifier: fileBundleId) else {throw ResponseDefintionError.missingBundle}
@@ -126,11 +158,19 @@ public class ResponseDefinition {
         return self
     }
     
+    /// Updates the proxy URL from which the response is returned. Matching requests will be proxied to this URL.
+    ///
+    /// - Parameter urlString: The proxy URL string
+    /// - Returns: The `ResponseDefinition` with an updated proxy URL
     public func proxiedFrom(_ urlString: String) -> ResponseDefinition {
         self.proxyBaseUrl = urlString
         return self
     }
     
+    /// Updates the array of `Transformer` options included in the response
+    ///
+    /// - Parameter transformers: The `Transformer` options to include
+    /// - Returns: The `ResponseDefinition` with updated `Transformer` options
     public func withTransformers(_ transformers: [Transformer]) -> ResponseDefinition {
         self.transformers = transformers
         return self

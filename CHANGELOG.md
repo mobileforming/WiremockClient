@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 1.4.0 - Unreleased
 ### Added
 - Support for adding a global delay to all Wiremock server responses
+- Documentation to all public classes and methods
 
 ## 1.3.0 - 2020-02-11
 ### Added

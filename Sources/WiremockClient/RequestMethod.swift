@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// A collection of HTTP request methods
 public enum RequestMethod: String, Codable {
     case GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD, TRACE, ANY
 }

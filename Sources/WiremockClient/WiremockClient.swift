@@ -129,7 +129,7 @@ public struct WiremockClient {
     /// Adds a delay to all responses from the Wiremock server.
     ///
     /// - Parameter delay: The time interval in milliseconds by which to delay all responses
-    public static func addGlobalDelay(_ delay: Int) {
+    public static func setGlobalDelay(_ delay: Int) {
         guard let url = URL(string: "\(baseURL)/__admin/settings") else { return }
         var request = URLRequest(url: url)
         request.httpMethod = RequestMethod.POST.rawValue

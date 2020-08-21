@@ -113,6 +113,18 @@ public struct WiremockClient {
         postCommandToServer(urlCommand: "__admin/shutdown", errorMessagePrefix: "Error shutting down the server")
     }
     
+    /// Adds a delay to all responses from the Wiremock server.
+    ///
+    /// - Parameter delay: The time interval in milliseconds by which to delay all responses
+    public static func addGlobalDelay(_ delay: Int) {
+        guard let url = URL(string: "\(baseURL)/__admin/settings") else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = RequestMethod.POST.rawValue
+        let data = try? JSONSerialization.data(withJSONObject: ["fixedDelay": delay], options: [.prettyPrinted])
+        request.httpBody = data
+        makeSynchronousRequest(request: request, errorMessagePrefix: "Error adding global delay")
+    }
+    
     /// MARK: Private methods
     
     private static func postCommandToServer(urlCommand: String, errorMessagePrefix: String) {

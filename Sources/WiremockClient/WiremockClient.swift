@@ -83,9 +83,13 @@ public struct WiremockClient {
     /// MARK: Private methods
     
     private static func postCommandToServer(urlCommand: String, errorMessagePrefix: String) {
+        serverCommand(urlCommand: urlCommand, method: .POST, errorMessagePrefix: errorMessagePrefix)
+    }
+
+    private static func serverCommand(urlCommand: String, method: RequestMethod, errorMessagePrefix: String) {
         guard let url = URL(string: "\(baseURL)/\(urlCommand)") else { return }
         var request = URLRequest(url: url)
-        request.httpMethod = RequestMethod.POST.rawValue
+        request.httpMethod = method.rawValue
         makeSynchronousRequest(request: request, errorMessagePrefix: errorMessagePrefix)
     }
     
@@ -177,10 +181,9 @@ extension WiremockClient {
     }
 
     public static func deleteAllRequests() {
-        guard let url = URL(string: "\(baseURL)/__admin/requests") else { return }
-        var request = URLRequest(url: url)
-        request.httpMethod = RequestMethod.DELETE.rawValue
-        makeSynchronousRequest(request: request, errorMessagePrefix: "Error attempting to delete all requests")
+        serverCommand(urlCommand: "__admin/requests",
+                      method: .DELETE,
+                      errorMessagePrefix: "Error attempting to delete all requests")
     }
 
 }

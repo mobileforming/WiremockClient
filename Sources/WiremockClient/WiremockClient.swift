@@ -180,6 +180,7 @@ extension WiremockClient {
         return returnRequests
     }
 
+    /// Deletes all requests that have been recorded to this point
     public static func deleteAllRequests() {
         serverCommand(urlCommand: "__admin/requests",
                       method: .DELETE,

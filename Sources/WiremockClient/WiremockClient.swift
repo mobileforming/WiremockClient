@@ -15,40 +15,7 @@ enum WiremockClientError: Error {
 public struct WiremockClient {
     
     public static var baseURL = "http://localhost:8080"
-    
-    /// Adds a stub mapping to the Wiremock server.
-    ///
-    /// - Parameter stubMapping: The stub mapping to add
-    public static func postMapping(stubMapping: StubMapping) {
-        guard let url = URL(string: "\(baseURL)/__admin/mappings") else {return}
-        var request = URLRequest(url: url)
-        request.httpMethod = RequestMethod.POST.rawValue
-        request.httpBody = stubMapping.asData()
-        _ = makeSynchronousRequest(request: request, errorMessagePrefix: "Error posting mapping")
-    }
-    
-    /// Replaces a stub mapping on the Wiremock server.
-    ///
-    /// - Parameter uuid: The identifier of the mapping to replace
-    public static func updateMapping(uuid: UUID, stubMapping: StubMapping) {
-        guard let url = URL(string: "\(baseURL)/__admin/mappings/\(uuid.uuidString)") else {return}
-        var request = URLRequest(url: url)
-        request.httpMethod = RequestMethod.PUT.rawValue
-        request.httpBody = stubMapping.asData()
-        _ = makeSynchronousRequest(request: request, errorMessagePrefix: "Error updating mapping")
-    }
-    
-    /// Deletes a stub mapping from the Wiremock server.
-    ///
-    /// - Parameter uuid: The identifier of the mapping to delete
-    public static func deleteMapping(uuid: UUID) {
-        guard let url = URL(string: "\(baseURL)/__admin/mappings/\(uuid.uuidString)") else {return}
-        var request = URLRequest(url: url)
-        request.httpMethod = RequestMethod.DELETE.rawValue
-        _ = makeSynchronousRequest(request: request, errorMessagePrefix: "Error deleting mapping")
-    }
-    
-    
+
     /// Verifies that a request has been made to the Wiremock server at least once.
     ///
     /// - Parameter mapping: The request mapping to filter on
@@ -71,26 +38,6 @@ public struct WiremockClient {
         }
     }
     
-    /// Looks up all requests matching a given pattern.
-    ///
-    /// - Parameter requestMapping: The request mapping to filter on
-    /// - Returns: An array of LoggedRequest objects or an empty array if there was no match
-    public static func findRequests(requestMapping: RequestMapping) -> [LoggedRequest] {
-        guard let url = URL(string: "\(baseURL)/__admin/requests/find") else { return [] }
-        var request = URLRequest(url: url)
-        request.httpMethod = RequestMethod.POST.rawValue
-        request.httpBody = requestMapping.asRequestData()
-        let responseData =  makeSynchronousRequest(request: request, errorMessagePrefix: "Error attempting to verify a request")
-        var returnRequests: [LoggedRequest] = []
-        let decoder = JSONDecoder()
-        if let json = responseData {
-            if let requests = try? decoder.decode(AllLoggedRequests.self, from: json) {
-                returnRequests = requests.requests
-            }
-        }
-        return returnRequests
-    }
-    
     /// Calls to the server to see if it is up and running.
     /// If there is a mappings element returned, and no error, we should be good.
     ///
@@ -105,12 +52,7 @@ public struct WiremockClient {
         }
         return false
     }
-    
-    /// Persists all stub mappings to the `mappings` directory of the Wiremock server.
-    public static func saveAllMappings() {
-        postCommandToServer(urlCommand: "__admin/mappings/save", errorMessagePrefix: "Error saving all mappings")
-    }
-    
+
     /// Removes all stub mappings and deletes request logs from the Wiremock server.
     public static func reset() {
         postCommandToServer(urlCommand: "__admin/reset", errorMessagePrefix: "Error resetting the server")
@@ -164,4 +106,81 @@ public struct WiremockClient {
     }
 
     
+}
+
+// MARK: - Mapping related API calls
+
+extension WiremockClient {
+
+    /// Adds a stub mapping to the Wiremock server.
+    ///
+    /// - Parameter stubMapping: The stub mapping to add
+    public static func postMapping(stubMapping: StubMapping) {
+        guard let url = URL(string: "\(baseURL)/__admin/mappings") else {return}
+        var request = URLRequest(url: url)
+        request.httpMethod = RequestMethod.POST.rawValue
+        request.httpBody = stubMapping.asData()
+        _ = makeSynchronousRequest(request: request, errorMessagePrefix: "Error posting mapping")
+    }
+
+    /// Replaces a stub mapping on the Wiremock server.
+    ///
+    /// - Parameter uuid: The identifier of the mapping to replace
+    public static func updateMapping(uuid: UUID, stubMapping: StubMapping) {
+        guard let url = URL(string: "\(baseURL)/__admin/mappings/\(uuid.uuidString)") else {return}
+        var request = URLRequest(url: url)
+        request.httpMethod = RequestMethod.PUT.rawValue
+        request.httpBody = stubMapping.asData()
+        _ = makeSynchronousRequest(request: request, errorMessagePrefix: "Error updating mapping")
+    }
+
+    /// Deletes a stub mapping from the Wiremock server.
+    ///
+    /// - Parameter uuid: The identifier of the mapping to delete
+    public static func deleteMapping(uuid: UUID) {
+        guard let url = URL(string: "\(baseURL)/__admin/mappings/\(uuid.uuidString)") else {return}
+        var request = URLRequest(url: url)
+        request.httpMethod = RequestMethod.DELETE.rawValue
+        _ = makeSynchronousRequest(request: request, errorMessagePrefix: "Error deleting mapping")
+    }
+
+    /// Persists all stub mappings to the `mappings` directory of the Wiremock server.
+    public static func saveAllMappings() {
+        postCommandToServer(urlCommand: "__admin/mappings/save", errorMessagePrefix: "Error saving all mappings")
+    }
+
+
+}
+
+// MARK: - Request related API calls
+
+extension WiremockClient {
+
+    /// Looks up all requests matching a given pattern.
+    ///
+    /// - Parameter requestMapping: The request mapping to filter on
+    /// - Returns: An array of LoggedRequest objects or an empty array if there was no match
+    public static func findRequests(requestMapping: RequestMapping) -> [LoggedRequest] {
+        guard let url = URL(string: "\(baseURL)/__admin/requests/find") else { return [] }
+        var request = URLRequest(url: url)
+        request.httpMethod = RequestMethod.POST.rawValue
+        request.httpBody = requestMapping.asRequestData()
+        let responseData =  makeSynchronousRequest(request: request, errorMessagePrefix: "Error attempting to verify a request")
+        var returnRequests: [LoggedRequest] = []
+        let decoder = JSONDecoder()
+        if let json = responseData {
+            if let requests = try? decoder.decode(AllLoggedRequests.self, from: json) {
+                returnRequests = requests.requests
+            }
+        }
+        return returnRequests
+    }
+
+    public static func deleteRequests(requestMapping: RequestMapping) {
+        guard let url = URL(string: "\(baseURL)/__admin/requests") else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = RequestMethod.DELETE.rawValue
+        makeSynchronousRequest(request: request, errorMessagePrefix: "Error attempting to delete all requests")
+    }
+
 }

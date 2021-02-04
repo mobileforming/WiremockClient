@@ -176,7 +176,7 @@ extension WiremockClient {
         return returnRequests
     }
 
-    public static func deleteRequests(requestMapping: RequestMapping) {
+    public static func deleteAllRequests() {
         guard let url = URL(string: "\(baseURL)/__admin/requests") else { return }
         var request = URLRequest(url: url)
         request.httpMethod = RequestMethod.DELETE.rawValue

@@ -8,33 +8,6 @@
 
 import Foundation
 
-/// A collection of conditons used to determine matches based on request attributes including headers, cookies, parameters, request body, JSON, XML, and XPath
-public enum MatchCondition: String {
-    /// An exact match
-    case equalTo
-    
-    /// A match containing a value
-    case contains
-    
-    /// A match by regex pattern
-    case matches
-    
-    /// A negative match
-    case doesNotMatch
-    
-    /// A semantic match of valid JSON
-    case equalToJson
-    
-    /// A JSON attribute non-nil value match
-    case matchesJsonPath
-    
-    /// A semantic match of valid XML
-    case equalToXml
-    
-    /// An XML path non-nil value match
-    case matchesXPath
-}
-
 /// An object used to configure a Wiremock server stub mapping. Refer to http://wiremock.org/docs/stubbing/ and http://wiremock.org/docs/request-matching/ for more details.
 public class StubMapping {
     private var request: RequestMapping
@@ -177,7 +150,7 @@ public class StubMapping {
     ///
     /// - Parameter response: The `ResponseDefinition` object used to configure the Wiremock server response
     /// - Returns: The `StubMapping` with an updated `ResponseDefinition`
-    public func willReturn(_ response: ResponseDefinition?) -> StubMapping {
+    public func willReturn(_ response: ResponseDefinition) -> StubMapping {
         self.response = response
         return self
     }
@@ -188,109 +161,52 @@ public class StubMapping {
     
     // Mapping Key Names
     
-    let keyUuid             = "uuid"
-    let keyMethod           = "method"
-    let keyPriority         = "priority"
-    let keyScenName         = "scenarioName"
-    let keyReqScen          = "requiredScenarioState"
-    let keyNewScen          = "newScenarioState"
-    let keyRequest          = "request"
-    let keyBody             = "body"
-    let keyStatus           = "status"
-    let keyStatusMessage    = "statusMessage"
-    let keyResponse         = "response"
-    let keyParams           = "queryParameters"
-    let keyBodyFile         = "bodyFileName"
-    let keyProxyUrl         = "proxyBaseUrl"
-    let keyHeaders          = "headers"
-    let keyCookies          = "cookies"
-    let keyBasicAuth        = "basicAuthCredentials"
-    let keyBodyPatterns     = "bodyPatterns"
-    let keyTransformers     = "transformers"
+    enum Constants {
+        static let keyUuid             = "uuid"
+        static let keyPriority         = "priority"
+        static let keyScenName         = "scenarioName"
+        static let keyReqScen          = "requiredScenarioState"
+        static let keyNewScen          = "newScenarioState"
+        static let keyRequest          = "request"
+        static let keyResponse         = "response"
+    }
     
-    internal func asData() -> Data? {
-        
+    func asDict() -> [String: Any] {
         var mappingDict = [String: Any]()
         
         // UUID
-        
-        mappingDict[keyUuid] = self.uuid.uuidString
+        mappingDict[Constants.keyUuid] = self.uuid.uuidString
         
         // Priority
-        
         if let priority = self.priority {
-            mappingDict[keyPriority] = priority
+            mappingDict[Constants.keyPriority] = priority
         }
         
         // Scenarios
-        
         if let scenarioName = self.scenarioName {
-            mappingDict[keyScenName] = scenarioName
+            mappingDict[Constants.keyScenName] = scenarioName
         }
         
         if let requiredScenarioState = self.requiredScenarioState {
-            mappingDict[keyReqScen] = requiredScenarioState
+            mappingDict[Constants.keyReqScen] = requiredScenarioState
         }
         
         if let newScenarioState = self.newScenarioState {
-            mappingDict[keyNewScen] = newScenarioState
+            mappingDict[Constants.keyNewScen] = newScenarioState
         }
         
-        /**** REQUEST ****/
+        // Request
+        mappingDict[Constants.keyRequest] = self.request.asDict()
         
-        mappingDict[keyRequest] = self.request.requestDict()
-        
-        /**** RESPONSE ****/
-        
-        var responseDict = [String: Any]()
-        
+        // Response
         if let response = self.response {
-            
-            // Body
-            
-            if let responseBody = response.body {
-                responseDict[keyBody] = responseBody
-            }
-            
-            // Status
-            
-            if let responseStatus = response.status {
-                responseDict[keyStatus] = responseStatus
-            }
-            
-            // Status Message
-            
-            if let statusMessage = response.statusMessage {
-                responseDict[keyStatusMessage] = statusMessage
-            }
-            
-            // Body File Name
-            
-            if let bodyFileName = response.bodyFileName {
-                responseDict[keyBodyFile] = bodyFileName
-            }
-            
-            // Proxy Base URL
-            
-            if let proxyBaseUrl = response.proxyBaseUrl {
-                responseDict[keyProxyUrl] = proxyBaseUrl
-            }
-            
-            // Headers
-            
-            if let headers = response.headers {
-                responseDict[keyHeaders] = headers
-            }
-            
-            // Transformers
-            
-            if let transformers = response.transformers {
-                responseDict[keyTransformers] = transformers.map { $0.rawValue }
-            }
+            mappingDict[Constants.keyResponse] = response.asDict()
         }
-        
-        mappingDict[keyResponse] = responseDict
-        
-        return try? JSONSerialization.data(withJSONObject: mappingDict, options: [.prettyPrinted])
+
+        return mappingDict
+    }
+    
+    func asData() -> Data? {
+        return try? JSONSerialization.data(withJSONObject: asDict(), options: [.prettyPrinted])
     }
 }

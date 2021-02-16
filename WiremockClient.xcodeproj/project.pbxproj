@@ -21,13 +21,24 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		5947BA9F23EC620E00340211 /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA6925E22E0F78C002F014E /* Transformer.swift */; };
 		597918602188FEF900D557EE /* RequestMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5979185E2188FEEF00D557EE /* RequestMapping.swift */; };
-		59E424EC21825848003EE1AE /* ResponseDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* ResponseDefinition.swift */; };
-		9DA6925F22E0F78C002F014E /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA6925E22E0F78C002F014E /* Transformer.swift */; };
 		9DA6926022E0F7BA002F014E /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA6925E22E0F78C002F014E /* Transformer.swift */; };
+		C24CB78825DAFD1F007E6BAB /* MappingsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24CB78625DAFD1F007E6BAB /* MappingsResponse.swift */; };
+		C24CB79625DB0075007E6BAB /* StubMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24CB79525DB0075007E6BAB /* StubMappingTests.swift */; };
+		C24CB7AF25DB21AD007E6BAB /* MatchCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24CB7AE25DB21AD007E6BAB /* MatchCondition.swift */; };
+		C24CB7B925DB2295007E6BAB /* ResponseDefinitionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24CB7B825DB2295007E6BAB /* ResponseDefinitionTests.swift */; };
+		C24CB7EA25DB3416007E6BAB /* test.json in Resources */ = {isa = PBXBuildFile; fileRef = C24CB7E825DB33FF007E6BAB /* test.json */; };
+		C24CB7F825DB3789007E6BAB /* WiremockClientErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24CB7F725DB3789007E6BAB /* WiremockClientErrorTests.swift */; };
+		C24CB80225DB38D5007E6BAB /* WiremockClientNetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24CB80125DB38D5007E6BAB /* WiremockClientNetworkServiceTests.swift */; };
+		C24CB81025DB4CB3007E6BAB /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24CB80F25DB4CB3007E6BAB /* Endpoint.swift */; };
+		C2BBFD4B25D6609B00217D10 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BBFD3F25D6605200217D10 /* NetworkService.swift */; };
+		C2BBFD5025D6609E00217D10 /* WiremockClientNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BBFD4525D6607800217D10 /* WiremockClientNetworkService.swift */; };
+		C2BBFD5725D662CB00217D10 /* DebugOverridable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BBFD5525D662CB00217D10 /* DebugOverridable.swift */; };
+		C2BBFD6725D664AC00217D10 /* WiremockClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BBFD6625D664AC00217D10 /* WiremockClientTests.swift */; };
+		C2BBFD9C25D66F7700217D10 /* WiremockClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BBFD9A25D66F7700217D10 /* WiremockClientError.swift */; };
+		C2BBFDA725D676D100217D10 /* LoggedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BBFDA525D676D100217D10 /* LoggedRequest.swift */; };
+		C2BBFDB225DAE6A000217D10 /* WiremockEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BBFDB025DAE6A000217D10 /* WiremockEndpoint.swift */; };
 		OBJ_26 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
-		OBJ_32 /* WiremockClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* WiremockClientTests.swift */; };
 		OBJ_34 /* WiremockClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "WiremockClient::WiremockClient::Product" /* WiremockClient.framework */; };
 		OBJ_41 /* RequestMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* RequestMethod.swift */; };
 		OBJ_42 /* RequestPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* RequestPattern.swift */; };
@@ -57,16 +68,30 @@
 /* Begin PBXFileReference section */
 		5979185E2188FEEF00D557EE /* RequestMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestMapping.swift; sourceTree = "<group>"; };
 		9DA6925E22E0F78C002F014E /* Transformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transformer.swift; sourceTree = "<group>"; };
+		C24CB78625DAFD1F007E6BAB /* MappingsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappingsResponse.swift; sourceTree = "<group>"; };
+		C24CB79525DB0075007E6BAB /* StubMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubMappingTests.swift; sourceTree = "<group>"; };
+		C24CB7AE25DB21AD007E6BAB /* MatchCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCondition.swift; sourceTree = "<group>"; };
+		C24CB7B825DB2295007E6BAB /* ResponseDefinitionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseDefinitionTests.swift; sourceTree = "<group>"; };
+		C24CB7E825DB33FF007E6BAB /* test.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test.json; sourceTree = "<group>"; };
+		C24CB7F725DB3789007E6BAB /* WiremockClientErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiremockClientErrorTests.swift; sourceTree = "<group>"; };
+		C24CB80125DB38D5007E6BAB /* WiremockClientNetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiremockClientNetworkServiceTests.swift; sourceTree = "<group>"; };
+		C24CB80F25DB4CB3007E6BAB /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		C2BBFD3F25D6605200217D10 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		C2BBFD4525D6607800217D10 /* WiremockClientNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiremockClientNetworkService.swift; sourceTree = "<group>"; };
+		C2BBFD5525D662CB00217D10 /* DebugOverridable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugOverridable.swift; sourceTree = "<group>"; };
+		C2BBFD6625D664AC00217D10 /* WiremockClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiremockClientTests.swift; sourceTree = "<group>"; };
+		C2BBFD9A25D66F7700217D10 /* WiremockClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiremockClientError.swift; sourceTree = "<group>"; };
+		C2BBFDA525D676D100217D10 /* LoggedRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedRequest.swift; sourceTree = "<group>"; };
+		C2BBFDB025DAE6A000217D10 /* WiremockEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiremockEndpoint.swift; sourceTree = "<group>"; };
 		OBJ_10 /* RequestPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPattern.swift; sourceTree = "<group>"; };
 		OBJ_11 /* ResponseDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseDefinition.swift; sourceTree = "<group>"; };
 		OBJ_12 /* StubMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubMapping.swift; sourceTree = "<group>"; };
 		OBJ_13 /* UrlPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlPattern.swift; sourceTree = "<group>"; };
 		OBJ_14 /* WiremockClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiremockClient.swift; sourceTree = "<group>"; };
-		OBJ_17 /* WiremockClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiremockClientTests.swift; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		OBJ_9 /* RequestMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestMethod.swift; sourceTree = "<group>"; };
 		"WiremockClient::WiremockClient::Product" /* WiremockClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = WiremockClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"WiremockClient::WiremockClientTests::Product" /* WiremockClientTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = WiremockClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"WiremockClient::WiremockClientTests::Product" /* WiremockClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = WiremockClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +113,58 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C24CB77D25DAFC5E007E6BAB /* ResponseObjects */ = {
+			isa = PBXGroup;
+			children = (
+				C2BBFDA525D676D100217D10 /* LoggedRequest.swift */,
+				C24CB78625DAFD1F007E6BAB /* MappingsResponse.swift */,
+			);
+			path = ResponseObjects;
+			sourceTree = "<group>";
+		};
+		C24CB77E25DAFC6D007E6BAB /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				C24CB80F25DB4CB3007E6BAB /* Endpoint.swift */,
+				C2BBFD3F25D6605200217D10 /* NetworkService.swift */,
+				OBJ_9 /* RequestMethod.swift */,
+				C2BBFD4525D6607800217D10 /* WiremockClientNetworkService.swift */,
+				C2BBFDB025DAE6A000217D10 /* WiremockEndpoint.swift */,
+				C24CB77D25DAFC5E007E6BAB /* ResponseObjects */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		C24CB77F25DAFC88007E6BAB /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				C2BBFD5525D662CB00217D10 /* DebugOverridable.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		C24CB78025DAFCBA007E6BAB /* Stubbing */ = {
+			isa = PBXGroup;
+			children = (
+				C24CB7AE25DB21AD007E6BAB /* MatchCondition.swift */,
+				5979185E2188FEEF00D557EE /* RequestMapping.swift */,
+				OBJ_10 /* RequestPattern.swift */,
+				OBJ_11 /* ResponseDefinition.swift */,
+				OBJ_12 /* StubMapping.swift */,
+				9DA6925E22E0F78C002F014E /* Transformer.swift */,
+				OBJ_13 /* UrlPattern.swift */,
+			);
+			path = Stubbing;
+			sourceTree = "<group>";
+		};
+		C24CB7E725DB33EE007E6BAB /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				C24CB7E825DB33FF007E6BAB /* test.json */,
+			);
+			path = JSON;
+			sourceTree = "<group>";
+		};
 		OBJ_15 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -99,7 +176,12 @@
 		OBJ_16 /* WiremockClientTests */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_17 /* WiremockClientTests.swift */,
+				C24CB7B825DB2295007E6BAB /* ResponseDefinitionTests.swift */,
+				C24CB79525DB0075007E6BAB /* StubMappingTests.swift */,
+				C24CB7F725DB3789007E6BAB /* WiremockClientErrorTests.swift */,
+				C24CB80125DB38D5007E6BAB /* WiremockClientNetworkServiceTests.swift */,
+				C2BBFD6625D664AC00217D10 /* WiremockClientTests.swift */,
+				C24CB7E725DB33EE007E6BAB /* JSON */,
 			);
 			name = WiremockClientTests;
 			path = Tests/WiremockClientTests;
@@ -135,14 +217,11 @@
 		OBJ_8 /* WiremockClient */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_9 /* RequestMethod.swift */,
-				OBJ_10 /* RequestPattern.swift */,
-				OBJ_11 /* ResponseDefinition.swift */,
-				OBJ_12 /* StubMapping.swift */,
-				5979185E2188FEEF00D557EE /* RequestMapping.swift */,
-				OBJ_13 /* UrlPattern.swift */,
 				OBJ_14 /* WiremockClient.swift */,
-				9DA6925E22E0F78C002F014E /* Transformer.swift */,
+				C2BBFD9A25D66F7700217D10 /* WiremockClientError.swift */,
+				C24CB77E25DAFC6D007E6BAB /* Networking */,
+				C24CB78025DAFCBA007E6BAB /* Stubbing */,
+				C24CB77F25DAFC88007E6BAB /* Utils */,
 			);
 			name = WiremockClient;
 			path = Sources/WiremockClient;
@@ -187,6 +266,7 @@
 			buildPhases = (
 				OBJ_31 /* Sources */,
 				OBJ_33 /* Frameworks */,
+				C24CB7E925DB340F007E6BAB /* Resources */,
 			);
 			buildRules = (
 			);
@@ -205,6 +285,14 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 9999;
+				TargetAttributes = {
+					"WiremockClient::WiremockClient" = {
+						LastSwiftMigration = 1230;
+					};
+					"WiremockClient::WiremockClientTests" = {
+						LastSwiftMigration = 1230;
+					};
+				};
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "WiremockClient" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -227,13 +315,23 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		C24CB7E925DB340F007E6BAB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C24CB7EA25DB3416007E6BAB /* test.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		OBJ_25 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
 				OBJ_26 /* Package.swift in Sources */,
-				9DA6925F22E0F78C002F014E /* Transformer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,9 +339,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				59E424EC21825848003EE1AE /* ResponseDefinition.swift in Sources */,
-				5947BA9F23EC620E00340211 /* Transformer.swift in Sources */,
-				OBJ_32 /* WiremockClientTests.swift in Sources */,
+				C24CB79625DB0075007E6BAB /* StubMappingTests.swift in Sources */,
+				C24CB80225DB38D5007E6BAB /* WiremockClientNetworkServiceTests.swift in Sources */,
+				C2BBFD6725D664AC00217D10 /* WiremockClientTests.swift in Sources */,
+				C24CB7F825DB3789007E6BAB /* WiremockClientErrorTests.swift in Sources */,
+				C24CB7B925DB2295007E6BAB /* ResponseDefinitionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,13 +351,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				C24CB78825DAFD1F007E6BAB /* MappingsResponse.swift in Sources */,
+				C2BBFDB225DAE6A000217D10 /* WiremockEndpoint.swift in Sources */,
 				OBJ_41 /* RequestMethod.swift in Sources */,
+				C24CB7AF25DB21AD007E6BAB /* MatchCondition.swift in Sources */,
 				OBJ_42 /* RequestPattern.swift in Sources */,
+				C2BBFD9C25D66F7700217D10 /* WiremockClientError.swift in Sources */,
+				C2BBFD5725D662CB00217D10 /* DebugOverridable.swift in Sources */,
+				C2BBFD5025D6609E00217D10 /* WiremockClientNetworkService.swift in Sources */,
+				C2BBFDA725D676D100217D10 /* LoggedRequest.swift in Sources */,
 				OBJ_43 /* ResponseDefinition.swift in Sources */,
 				597918602188FEF900D557EE /* RequestMapping.swift in Sources */,
+				C2BBFD4B25D6609B00217D10 /* NetworkService.swift in Sources */,
 				9DA6926022E0F7BA002F014E /* Transformer.swift in Sources */,
 				OBJ_44 /* StubMapping.swift in Sources */,
 				OBJ_45 /* UrlPattern.swift in Sources */,
+				C24CB81025DB4CB3007E6BAB /* Endpoint.swift in Sources */,
 				OBJ_46 /* WiremockClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -299,6 +408,7 @@
 		OBJ_29 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -309,7 +419,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = WiremockClientTests;
 			};
 			name = Debug;
@@ -328,6 +439,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "-DXcode";
+				"OTHER_SWIFT_FLAGS[arch=*]" = "-D DEBUG";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
@@ -341,6 +453,7 @@
 		OBJ_30 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -351,7 +464,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = WiremockClientTests;
 			};
 			name = Release;
@@ -367,13 +480,14 @@
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = WiremockClient.xcodeproj/WiremockClient_Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MARKETING_VERSION = 2.0.0;
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = WiremockClient;
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = WiremockClient;
 			};
 			name = Debug;
@@ -389,13 +503,14 @@
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = WiremockClient.xcodeproj/WiremockClient_Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MARKETING_VERSION = 2.0.0;
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = WiremockClient;
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = WiremockClient;
 			};
 			name = Release;

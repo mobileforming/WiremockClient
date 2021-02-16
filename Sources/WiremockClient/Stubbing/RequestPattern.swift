@@ -24,7 +24,7 @@ public enum URLMatchCondition: String {
     case urlPathMatching    = "urlPathPattern"
 }
 
-internal struct RequestPattern {
+struct RequestPattern {
     var urlPattern: UrlPattern
     var requestMethod: RequestMethod
     var queryParameters: [String: [String: Any]]?

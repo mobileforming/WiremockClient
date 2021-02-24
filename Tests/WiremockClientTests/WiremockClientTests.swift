@@ -68,7 +68,7 @@ class WiremockClientTests: XCTestCase {
     }
     
     func test_findRequests() throws {
-        networkService.decodableResponse = stubLoggedRequests
+        networkService.decodableResponse = LoggedRequestResponse(requests: stubLoggedRequests) 
         let _ = try WiremockClient.findRequests(requestMapping: RequestMapping.requestFor(requestMethod: .POST, urlMatchCondition: .urlEqualTo, url: "http://localhost/test/request"))
         
         XCTAssertEqual(networkService.cachedEndpoint?.urlRequest?.httpMethod, "POST")
@@ -85,7 +85,7 @@ class WiremockClientTests: XCTestCase {
     }
     
     func test_verifyRequestMapping_success() throws {
-        networkService.decodableResponse = stubLoggedRequests
+        networkService.decodableResponse = LoggedRequestResponse(requests: stubLoggedRequests)
         try WiremockClient.verify(requestMapping: RequestMapping.requestFor(requestMethod: .POST, urlMatchCondition: .urlEqualTo, url: "http://localhost/test/request"))
         
         XCTAssertEqual(networkService.cachedEndpoint?.urlRequest?.httpMethod, "POST")
@@ -94,7 +94,7 @@ class WiremockClientTests: XCTestCase {
     }
     
     func test_verifyRequestMapping_failure() throws {
-        networkService.decodableResponse = [LoggedRequest]()
+        networkService.decodableResponse = LoggedRequestResponse(requests: [])
         XCTAssertThrowsError(try WiremockClient.verify(requestMapping: RequestMapping.requestFor(requestMethod: .POST, urlMatchCondition: .urlEqualTo, url: "http://localhost/test/request"))) { error in
             let wiremockClientError = try? XCTUnwrap(error as? WiremockClientError)
             guard case .verificationError = wiremockClientError else {
@@ -104,7 +104,7 @@ class WiremockClientTests: XCTestCase {
     }
     
     func test_verifyRequestMappingExpectedCount_success() throws {
-        networkService.decodableResponse = stubLoggedRequests
+        networkService.decodableResponse = LoggedRequestResponse(requests: stubLoggedRequests)
         try WiremockClient.verify(expectedCount: 1, requestMapping: RequestMapping.requestFor(requestMethod: .POST, urlMatchCondition: .urlEqualTo, url: "http://localhost/test/request"))
         
         XCTAssertEqual(networkService.cachedEndpoint?.urlRequest?.httpMethod, "POST")
@@ -113,7 +113,7 @@ class WiremockClientTests: XCTestCase {
     }
     
     func test_verifyRequestMappingExpectedCount_failure() throws {
-        networkService.decodableResponse = [LoggedRequest]()
+        networkService.decodableResponse = LoggedRequestResponse(requests: [])
         XCTAssertThrowsError(try WiremockClient.verify(expectedCount: 1, requestMapping: RequestMapping.requestFor(requestMethod: .POST, urlMatchCondition: .urlEqualTo, url: "http://localhost/test/request"))) { error in
             let wiremockClientError = try? XCTUnwrap(error as? WiremockClientError)
             guard case .verificationError = wiremockClientError else {

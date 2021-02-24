@@ -59,7 +59,8 @@ extension WiremockClient {
     /// - Parameter requestMapping: The request mapping to filter on
     /// - Returns: An array of LoggedRequest objects or an empty array if there was no match
     public static func findRequests(requestMapping: RequestMapping) throws -> [LoggedRequest] {
-        try networkService.makeSynchronousRequest(with: WiremockEndpoint.getRequestLog(mapping: requestMapping))
+        let response: LoggedRequestResponse = try networkService.makeSynchronousRequest(with: WiremockEndpoint.getRequestLog(mapping: requestMapping))
+        return response.requests
     }
 
     /// Deletes all requests that have been recorded to this point

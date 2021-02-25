@@ -31,6 +31,7 @@ extension ResponseDefintionError: LocalizedError {
 public class ResponseDefinition {
     
     var status: Int?
+    var fixedDelay: Int?
     var statusMessage: String?
     var body: String?
     var proxyBaseUrl: String?
@@ -173,6 +174,15 @@ public class ResponseDefinition {
     /// - Returns: The `ResponseDefinition` with updated `Transformer` options
     public func withTransformers(_ transformers: [Transformer]) -> ResponseDefinition {
         self.transformers = transformers
+        return self
+    }
+
+    /// Adds a delay to a specific response
+    ///
+    /// - Parameter fixedDelay: The time interval in milliseconds by which to delay the response
+    /// - Returns: The `ResponseDefinition` with added delay to it
+    public func withFixedDelay(_ fixedDelay: Int) -> ResponseDefinition {
+        self.fixedDelay = fixedDelay
         return self
     }
 }

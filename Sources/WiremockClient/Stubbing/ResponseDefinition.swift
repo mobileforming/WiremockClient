@@ -30,15 +30,19 @@ extension ResponseDefintionError: LocalizedError {
 /// An object used to define the response to be returned by a Wiremock server. Refer to http://http://wiremock.org/docs/stubbing/ for more details.
 public class ResponseDefinition {
     
-    public init() {}
+    var status: Int?
+    var fixedDelay: Int?
+    var statusMessage: String?
+    var body: String?
+    var proxyBaseUrl: String?
+    var bodyFileName: String?
+    var headers: [String: String]?
+    var transformers: [Transformer]?
     
-    private var status: Int?
-    private var statusMessage: String?
-    private var body: String?
-    private var proxyBaseUrl: String?
-    private var bodyFileName: String?
-    private var headers: [String: String]?
-    private var transformers: [Transformer]?
+    public var json: [String: Any]?
+    public var data: Data?
+    
+    public init() {}
 
     //----------------------------------
     // MARK: Response Builder Methods
@@ -174,6 +178,15 @@ public class ResponseDefinition {
         self.transformers = transformers
         return self
     }
+
+    /// Adds a delay to a specific response
+    ///
+    /// - Parameter fixedDelay: The time interval in milliseconds by which to delay the response
+    /// - Returns: The `ResponseDefinition` with added delay to it
+    public func withFixedDelay(_ fixedDelay: Int) -> ResponseDefinition {
+        self.fixedDelay = fixedDelay
+        return self
+    }
     
     //----------------------------------
     // MARK: Mapping to Data Conversion
@@ -187,6 +200,7 @@ public class ResponseDefinition {
         static let keyStatus           = "status"
         static let keyStatusMessage    = "statusMessage"
         static let keyTransformers     = "transformers"
+        static let keyFixedDelay       = "fixedDelayMilliseconds"
     }
     
     func asDict() -> [String: Any] {
@@ -225,6 +239,11 @@ public class ResponseDefinition {
         // Transformers
         if let transformers = transformers {
             responseDict[Constants.keyTransformers] = transformers.map { $0.rawValue }
+        }
+        
+        // Fixed Delay
+        if let fixedDelay = fixedDelay {
+            responseDict[Constants.keyFixedDelay] = fixedDelay
         }
         
         return responseDict

@@ -106,4 +106,9 @@ class ResponseDefinitionTests: XCTestCase {
         let firstTransformer = try XCTUnwrap(transformers.first)
         XCTAssertEqual(firstTransformer, Transformer.responseTemplate.rawValue)
     }
+    
+    func test_withFixedDelay() throws {
+        let response = ResponseDefinition().withFixedDelay(2)
+        XCTAssertEqual(response.asDict()[ResponseDefinition.Constants.keyFixedDelay] as? Int, 2)
+    }
 }

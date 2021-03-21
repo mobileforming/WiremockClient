@@ -207,7 +207,8 @@ public class StubMapping {
     let keyBasicAuth        = "basicAuthCredentials"
     let keyBodyPatterns     = "bodyPatterns"
     let keyTransformers     = "transformers"
-    
+    let keyFixedDelay = "fixedDelayMilliseconds"
+
     internal func asData() -> Data? {
         
         var mappingDict = [String: Any]()
@@ -286,6 +287,12 @@ public class StubMapping {
             
             if let transformers = response.transformers {
                 responseDict[keyTransformers] = transformers.map { $0.rawValue }
+            }
+
+            // Fixed Delay
+
+            if let responseFixedDelay = response.fixedDelay {
+                responseDict[keyFixedDelay] = responseFixedDelay
             }
         }
         

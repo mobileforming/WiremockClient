@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
 WiremockClient is an HTTP client that allows users to interact with a standalone Wiremock instance from within an Xcode project.
                        DESC
 
-  s.homepage         = 'http://mobileforming.com'
+  s.homepage         = 'https://github.com/mobileforming/WiremockClient'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Ted Rothrock' => 'ted.rothrock@mobileforming.com' }
   s.source           = { :git => 'https://github.com/mobileforming/WiremockClient.git', :tag => '2.0.0' }

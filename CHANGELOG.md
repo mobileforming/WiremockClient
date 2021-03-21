@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 2.0.0 - 2021-03-21
+### Added
+- Support for adding a delay to individual responses.
+- Support for deleting request history.
+- Unit test coverage.
+### Removed
+- Public `json` and `data` properties from ResponseDefinition.
+### Changed
+- Public WiremockClient methods now throw errors.
+- ResponseDefinition `withLocalJsonBodyFile` method updated to accept a Bundle reference instead of a `String`.
+
 ## 1.4.0 - 2020-09-04
 ### Added
 - Support for adding a global delay to all Wiremock server responses

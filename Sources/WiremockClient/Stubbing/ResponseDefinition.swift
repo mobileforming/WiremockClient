@@ -39,9 +39,6 @@ public class ResponseDefinition {
     var headers: [String: String]?
     var transformers: [Transformer]?
     
-    public var json: [String: Any]?
-    public var data: Data?
-    
     public init() {}
 
     //----------------------------------

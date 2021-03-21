@@ -108,12 +108,10 @@ WiremockClient.postMapping(stubMapping:
     StubMapping.stubFor(requestMethod: .ANY, urlMatchCondition: .urlEqualTo, url: "http://localhost:8080/my/path")
         .willReturn(
             ResponseDefinition()
-                .withLocalJsonBodyFile(fileName: "myFile", fileBundleId: "com.WiremockClient", fileSubdirectory: nil)
+                .withLocalJsonBodyFile(fileName: "myFile", in: Bundle(for: type(of: self)))
     )
 )
 ```
-
-A public `json` variable is also included as part of the ResponseDefinition object to allow for easy access to locally stored JSON, e.g. for injecting in unit tests.
 
 ### Proxying
 
@@ -219,7 +217,7 @@ A typical use case of WiremockClient looks like this:
 
 ## Author
 
-Ted Rothrock, ted.rothrock@mobileforming.com
+Ted Rothrock, theodore.rothrock@gmail.com
 
 ## License
 

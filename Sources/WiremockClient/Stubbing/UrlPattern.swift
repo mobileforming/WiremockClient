@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal struct UrlPattern {
+struct UrlPattern {
     
     var url: String
     var urlMatchCondition: URLMatchCondition

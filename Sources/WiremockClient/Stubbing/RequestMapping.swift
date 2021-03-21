@@ -7,43 +7,6 @@
 
 import Foundation
 
-//----------------------------------
-// MARK: Codable Request objects
-//----------------------------------
-
-/**
-The example json from wiremock.org when only requests are returned.
- This is associated with the verify method:
- http://wiremock.org/docs/verifying
- 
-"url": "/my/other/url",
-"absoluteUrl": "http://my.other.domain.com/my/other/url",
-"method": "POST",
-"headers": {
-    "Accept": "text/plain",
-    "Content-Type": "text/plain"
-},
-"body": "My text",
-"browserProxyRequest": false,
-"loggedDate": 1339083581823,
-"loggedDateString": "2012-06-07 16:39:41"
-
- */
-
-internal struct AllLoggedRequests: Codable {
-    public var requests: [LoggedRequest]
-}
-
-public struct LoggedRequest: Codable {
-    public var url: String?
-    public var absoluteUrl: String?
-    public var method: RequestMethod?
-    public var body: String?
-    public var browserProxyRequest: Bool?
-    public var loggedDateString: String?
-    public var headers: [String : String]?
-}
-
 /// An object used to configure a Wiremock request verification mapping. Refer to http://http://wiremock.org/docs/verifying/ for more details.
 public class RequestMapping {
     
@@ -112,7 +75,7 @@ public class RequestMapping {
     /// - Parameter password: The password to evaluate
     /// - Returns: The `RequestMapping` with an updated basic authentication match condition
     public func withBasicAuth(username: String, password: String) -> RequestMapping {
-        self.request.basicAuthCredentials = ["username": username, "password": password]
+        self.request.basicAuthCredentials = [Constants.keyUsername: username, Constants.keyPassword: password]
         return self
     }
     
@@ -138,10 +101,10 @@ public class RequestMapping {
         self.request.bodyPatterns = self.request.bodyPatterns ?? [[String: Any]]()
         var bodyPatternDict: [String: Any] = [MatchCondition.equalToJson.rawValue: jsonString]
         if ignoreArrayOrder {
-            bodyPatternDict["ignoreArrayOrder"] = true
+            bodyPatternDict[Constants.keyIgnoreArrayOrder] = true
         }
         if ignoreExtraElements {
-            bodyPatternDict["ignoreExtraElements"] = true
+            bodyPatternDict[Constants.keyIgnoreExtraElements] = true
         }
         self.request.bodyPatterns?.append(bodyPatternDict)
         return self
@@ -153,60 +116,58 @@ public class RequestMapping {
     
     // Mapping Key Names
     
-    let keyMethod           = "method"
-    let keyParams           = "queryParameters"
-    let keyHeaders          = "headers"
-    let keyCookies          = "cookies"
-    let keyBasicAuth        = "basicAuthCredentials"
-    let keyBodyPatterns     = "bodyPatterns"
+    enum Constants {
+        static let keyMethod                = "method"
+        static let keyParams                = "queryParameters"
+        static let keyHeaders               = "headers"
+        static let keyCookies               = "cookies"
+        static let keyBasicAuth             = "basicAuthCredentials"
+        static let keyBodyPatterns          = "bodyPatterns"
+        static let keyIgnoreArrayOrder      = "ignoreArrayOrder"
+        static let keyIgnoreExtraElements   = "ignoreExtraElements"
+        static let keyUsername              = "username"
+        static let keyPassword              = "password"
+    }
     
-    internal func requestDict() -> [String: Any] {
-        
+    func asDict() -> [String: Any] {
         var requestDict = [String: Any]()
         
         // URL
-        
         requestDict["\(self.request.urlPattern.urlMatchCondition.rawValue)"] = "\(self.request.urlPattern.url)"
         
         // Request Method
-        
-        requestDict[keyMethod] = "\(self.request.requestMethod.rawValue)"
+        requestDict[Constants.keyMethod] = "\(self.request.requestMethod.rawValue)"
         
         // Headers
-        
         if let headers = self.request.headers {
-            requestDict[keyHeaders] = headers
+            requestDict[Constants.keyHeaders] = headers
         }
         
         // Cookies
-        
         if let cookies = self.request.cookies {
-            requestDict[keyCookies] = cookies
+            requestDict[Constants.keyCookies] = cookies
         }
         
         // Query Parameters
-        
         if let queryParameters = self.request.queryParameters {
-            requestDict[keyParams] = queryParameters
+            requestDict[Constants.keyParams] = queryParameters
         }
         
         // Basic Auth Credentials
-        
         if let credentials = self.request.basicAuthCredentials {
-            requestDict[keyBasicAuth] = credentials
+            requestDict[Constants.keyBasicAuth] = credentials
         }
         
         // Request Body Patterns
-        
         if let bodyPatterns = self.request.bodyPatterns {
-            requestDict[keyBodyPatterns] = bodyPatterns
+            requestDict[Constants.keyBodyPatterns] = bodyPatterns
         }
         
         return requestDict
     }
     
-    internal func asRequestData() -> Data? {
-        return try? JSONSerialization.data(withJSONObject: requestDict(), options: [.prettyPrinted])
+    func asData() -> Data? {
+        return try? JSONSerialization.data(withJSONObject: asDict(), options: [.prettyPrinted])
     }
     
 }
@@ -214,7 +175,7 @@ public class RequestMapping {
 extension RequestMapping: CustomStringConvertible {
     /// A `String` representation of the mapping
     public var description: String {
-        guard let data = asRequestData(), let stringVal = String(data: data, encoding: .utf8) else {
+        guard let data = asData(), let stringVal = String(data: data, encoding: .utf8) else {
             return "{}"
         }
         return stringVal

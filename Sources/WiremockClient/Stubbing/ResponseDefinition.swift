@@ -43,7 +43,7 @@ public class ResponseDefinition {
     public var data: Data?
     
     public init() {}
-    
+
     //----------------------------------
     // MARK: Response Builder Methods
     //----------------------------------
@@ -100,8 +100,9 @@ public class ResponseDefinition {
         case let json as [String: Any]:
             do {
                 let data = try JSONSerialization.data(withJSONObject: json, options: [])
-                self.data = data
-                guard let jsonString = String(data: data, encoding: .utf8) else {throw ResponseDefintionError.unableToConvertData}
+                guard let jsonString = String(data: data, encoding: .utf8) else {
+                    throw ResponseDefintionError.unableToConvertData
+                }
                 self.body = jsonString
             } catch {
                 print("Error adding body to ResponseDefinition: \(error.localizedDescription)")
@@ -111,8 +112,9 @@ public class ResponseDefinition {
         case let json as [[String: Any]]:
             do {
                 let data = try JSONSerialization.data(withJSONObject: json, options: [])
-                self.data = data
-                guard let jsonString = String(data: data, encoding: .utf8) else {throw ResponseDefintionError.unableToConvertData}
+                guard let jsonString = String(data: data, encoding: .utf8) else {
+                    throw ResponseDefintionError.unableToConvertData
+                }
                 self.body = jsonString
             } catch {
                 print("Error adding body to ResponseDefinition: \(error.localizedDescription)")
@@ -135,23 +137,23 @@ public class ResponseDefinition {
         return self
     }
     
-    /// Updates the body of the Wiremock server response
-    ///
-    /// - Parameter fileName: The name of a local JSON file. Its contents will be used to populate the reponse body.
-    /// - Parameter fileBundleId: The identifier of the bundle where the file is located.
-    /// - Parameter fileSubdirectory: The path to the file.
+    /// Updates the body of the Wiremock server response using the contents of a local JSON file.
+    /// - Parameters:
+    ///   - fileName: The name of a local JSON file. Its contents will be used to populate the reponse body.
+    ///   - bundle: The `Bundle` in which the JSON file is located.
+    ///   - subdirectory: The path to the file.
     /// - Returns: The `ResponseDefinition` with an updated local JSON body file
-    public func withLocalJsonBodyFile(fileName: String, fileBundleId: String, fileSubdirectory: String?) -> ResponseDefinition {
+    public func withLocalJsonBodyFile(_ fileName: String, in bundle: Bundle, subdirectory: String? = nil) -> ResponseDefinition {
         do {
-            guard let bundle = Bundle(identifier: fileBundleId) else {throw ResponseDefintionError.missingBundle}
-            guard let responseUrl = bundle.url(forResource: fileName, withExtension: "json", subdirectory: fileSubdirectory) else {throw ResponseDefintionError.fileNotFound}
-            
+            guard let responseUrl = bundle.url(forResource: fileName, withExtension: "json", subdirectory: subdirectory) else {
+                throw ResponseDefintionError.fileNotFound
+            }
             let data = try Data(contentsOf: responseUrl)
-            self.data = data
             let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments])
-            self.json = json as? [String: Any]
             let dataWithoutSpecialChars = try JSONSerialization.data(withJSONObject: json, options: [])
-            guard let jsonString = String(data: dataWithoutSpecialChars, encoding: .utf8) else {throw ResponseDefintionError.unableToConvertData}
+            guard let jsonString = String(data: dataWithoutSpecialChars, encoding: .utf8) else {
+                throw ResponseDefintionError.unableToConvertData
+            }
             self.body = jsonString
         } catch {
             print("Error adding body to ResponseDefinition from file \(fileName): \(error.localizedDescription)")
@@ -184,5 +186,66 @@ public class ResponseDefinition {
     public func withFixedDelay(_ fixedDelay: Int) -> ResponseDefinition {
         self.fixedDelay = fixedDelay
         return self
+    }
+    
+    //----------------------------------
+    // MARK: Mapping to Data Conversion
+    //----------------------------------
+    
+    enum Constants {
+        static let keyBody             = "body"
+        static let keyBodyFile         = "bodyFileName"
+        static let keyHeaders          = "headers"
+        static let keyProxyUrl         = "proxyBaseUrl"
+        static let keyStatus           = "status"
+        static let keyStatusMessage    = "statusMessage"
+        static let keyTransformers     = "transformers"
+        static let keyFixedDelay       = "fixedDelayMilliseconds"
+    }
+    
+    func asDict() -> [String: Any] {
+        var responseDict = [String: Any]()
+        
+        // Body
+        if let responseBody = body {
+            responseDict[Constants.keyBody] = responseBody
+        }
+        
+        // Status
+        if let responseStatus = status {
+            responseDict[Constants.keyStatus] = responseStatus
+        }
+        
+        // Status Message
+        if let statusMessage = statusMessage {
+            responseDict[Constants.keyStatusMessage] = statusMessage
+        }
+        
+        // Body File Name
+        if let bodyFileName = bodyFileName {
+            responseDict[Constants.keyBodyFile] = bodyFileName
+        }
+        
+        // Proxy Base URL
+        if let proxyBaseUrl = proxyBaseUrl {
+            responseDict[Constants.keyProxyUrl] = proxyBaseUrl
+        }
+        
+        // Headers
+        if let headers = headers {
+            responseDict[Constants.keyHeaders] = headers
+        }
+        
+        // Transformers
+        if let transformers = transformers {
+            responseDict[Constants.keyTransformers] = transformers.map { $0.rawValue }
+        }
+        
+        // Fixed Delay
+        if let fixedDelay = fixedDelay {
+            responseDict[Constants.keyFixedDelay] = fixedDelay
+        }
+        
+        return responseDict
     }
 }

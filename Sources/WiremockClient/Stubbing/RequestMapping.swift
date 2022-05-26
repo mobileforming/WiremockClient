@@ -10,7 +10,7 @@ import Foundation
 /// An object used to configure a Wiremock request verification mapping. Refer to http://http://wiremock.org/docs/verifying/ for more details.
 public class RequestMapping {
     
-    private(set) var request: RequestPattern
+    public private(set) var request: RequestPattern
     
     private init(requestMethod: RequestMethod, urlMatchCondition: URLMatchCondition, url: String) {
         self.request = RequestPattern(requestMethod: requestMethod, urlMatchCondition: urlMatchCondition, url: url)

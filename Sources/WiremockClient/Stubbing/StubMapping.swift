@@ -10,14 +10,14 @@ import Foundation
 
 /// An object used to configure a Wiremock server stub mapping. Refer to http://wiremock.org/docs/stubbing/ and http://wiremock.org/docs/request-matching/ for more details.
 public class StubMapping {
-    private(set) var request: RequestMapping
-    private(set) var response: ResponseDefinition?
-    private(set) var uuid: UUID
-    private(set) var name: String?
-    private(set) var priority: Int?
-    private(set) var scenarioName: String?
-    private(set) var requiredScenarioState: String?
-    private(set) var newScenarioState: String?
+    public private(set) var request: RequestMapping
+    public private(set) var response: ResponseDefinition?
+    public private(set) var uuid: UUID
+    public private(set) var name: String?
+    public private(set) var priority: Int?
+    public private(set) var scenarioName: String?
+    public private(set) var requiredScenarioState: String?
+    public private(set) var newScenarioState: String?
     
     private init(requestMethod: RequestMethod, urlMatchCondition: URLMatchCondition, url: String) {
         self.request = RequestMapping.requestFor(requestMethod: requestMethod, urlMatchCondition: urlMatchCondition, url: url)

@@ -38,6 +38,7 @@ public class ResponseDefinition {
     var bodyFileName: String?
     var headers: [String: String]?
     var transformers: [Transformer]?
+    var transformerParameters: [String: Any]?
     
     public init() {}
 
@@ -176,6 +177,15 @@ public class ResponseDefinition {
         return self
     }
 
+    /// Adds multiple transformer parameters used for response templating
+    ///
+    /// - Parameter headers: The transformer parameters used for response templating
+    /// - Returns: The `ResponseDefinition` with updated transformer parameters
+    public func withTransformerParameters(_ transformerParameters: [String: Any]) -> ResponseDefinition {
+        self.transformerParameters = transformerParameters
+        return self
+    }
+
     /// Adds a delay to a specific response
     ///
     /// - Parameter fixedDelay: The time interval in milliseconds by which to delay the response
@@ -190,14 +200,15 @@ public class ResponseDefinition {
     //----------------------------------
     
     enum Constants {
-        static let keyBody             = "body"
-        static let keyBodyFile         = "bodyFileName"
-        static let keyHeaders          = "headers"
-        static let keyProxyUrl         = "proxyBaseUrl"
-        static let keyStatus           = "status"
-        static let keyStatusMessage    = "statusMessage"
-        static let keyTransformers     = "transformers"
-        static let keyFixedDelay       = "fixedDelayMilliseconds"
+        static let keyBody                    = "body"
+        static let keyBodyFile                = "bodyFileName"
+        static let keyHeaders                 = "headers"
+        static let keyProxyUrl                = "proxyBaseUrl"
+        static let keyStatus                  = "status"
+        static let keyStatusMessage           = "statusMessage"
+        static let keyTransformers            = "transformers"
+        static let keyTransformerParameters   = "transformerParameters"
+        static let keyFixedDelay              = "fixedDelayMilliseconds"
     }
     
     func asDict() -> [String: Any] {
@@ -241,6 +252,11 @@ public class ResponseDefinition {
         // Fixed Delay
         if let fixedDelay = fixedDelay {
             responseDict[Constants.keyFixedDelay] = fixedDelay
+        }
+
+        // Tranformer parameters
+        if let transformerParameters = transformerParameters {
+            responseDict[Constants.keyTransformerParameters] = transformerParameters
         }
         
         return responseDict

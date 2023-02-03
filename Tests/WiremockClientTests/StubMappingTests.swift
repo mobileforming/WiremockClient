@@ -142,6 +142,18 @@ class StubMappingTests: XCTestCase {
         let ignoreExtraElements = try XCTUnwrap(bodyPatternDict[RequestMapping.Constants.keyIgnoreExtraElements] as? Bool)
         XCTAssertTrue(ignoreExtraElements)
     }
+
+    func test_withRequestBodyFromLocalJsonFile() throws {
+        let jsonString = "{\"testKey\":\"testValue\"}"
+        let fileName = "test"
+        let mapping = StubMapping.stubFor(requestMethod: .ANY, urlMatchCondition: .urlMatching, url: "")
+            .withRequestBodyFromLocalJsonFile(fileName, in: Bundle(for: type(of: self)), ignoreArayOrder: true, ignoreExtraElements: true)
+        let bodyPatternDict = try XCTUnwrap(mapping.getFirstBodyPattern())
+        let jsonResult = try XCTUnwrap(bodyPatternDict[MatchCondition.equalToJson.rawValue] as? String)
+        XCTAssertEqual(jsonString, jsonResult)
+        let ignoreExtraElements = try XCTUnwrap(bodyPatternDict[RequestMapping.Constants.keyIgnoreExtraElements] as? Bool)
+        XCTAssertTrue(ignoreExtraElements)
+    }
 }
 
 private extension StubMapping {

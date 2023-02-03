@@ -8,6 +8,25 @@
 
 import Foundation
 
+private enum StubMappingError: Error {
+    case missingBundle
+    case fileNotFound
+    case unableToConvertData
+}
+
+extension StubMappingError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .missingBundle:
+            return "Unable to locate resource bundle."
+        case .fileNotFound:
+            return "Unable to locate file in resource bundle."
+        case .unableToConvertData:
+            return "Unable to convert data to string."
+        }
+    }
+}
+
 /// An object used to configure a Wiremock server stub mapping. Refer to http://wiremock.org/docs/stubbing/ and http://wiremock.org/docs/request-matching/ for more details.
 public class StubMapping {
     public private(set) var request: RequestMapping
@@ -143,6 +162,32 @@ public class StubMapping {
     /// - Returns: The `StubMapping` with an updated JSON match condition
     public func withRequestBodyEqualToJson(jsonString: String, ignoreArrayOrder: Bool, ignoreExtraElements: Bool) -> StubMapping {
         _ = self.request.withRequestBodyEqualToJson(jsonString: jsonString, ignoreArrayOrder: ignoreArrayOrder, ignoreExtraElements: ignoreExtraElements)
+        return self
+    }
+
+    /// Adds a request JSON match condition to a mapping using the contents of a local JSON file.
+    /// - Parameters:
+    ///   - fileName: The name of a local JSON file. Its contents will be used to populate the reponse body.
+    ///   - bundle: The `Bundle` in which the JSON file is located.
+    ///   - ignoreArrayOrder: A flag that indicates if matching JSON must contain elements in an exact order
+    ///   - ignoreExtraElements: A flag that indicates if matching JSON must not contain extra elements
+    ///   - subdirectory: The path to the file.
+    /// - Returns: The `StubMapping` with an updated JSON match condition
+    public func withRequestBodyFromLocalJsonFile(_ fileName: String, in bundle: Bundle, ignoreArayOrder: Bool, ignoreExtraElements: Bool, subdirectory: String? = nil) -> StubMapping {
+        do {
+            guard let responseUrl = bundle.url(forResource: fileName, withExtension: "json", subdirectory: subdirectory) else {
+                throw StubMappingError.fileNotFound
+            }
+            let data = try Data(contentsOf: responseUrl)
+            let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments])
+            let dataWithoutSpecialChars = try JSONSerialization.data(withJSONObject: json, options: [])
+            guard let jsonString = String(data: dataWithoutSpecialChars, encoding: .utf8) else {
+                throw StubMappingError.unableToConvertData
+            }
+            _ = self.withRequestBodyEqualToJson(jsonString: jsonString, ignoreArrayOrder: ignoreArayOrder, ignoreExtraElements: ignoreExtraElements)
+        } catch {
+            print("Error adding body to ResponseDefinition from file \(fileName): \(error.localizedDescription)")
+        }
         return self
     }
     

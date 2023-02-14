@@ -186,7 +186,7 @@ public class StubMapping {
             }
             _ = self.withRequestBodyEqualToJson(jsonString: jsonString, ignoreArrayOrder: ignoreArayOrder, ignoreExtraElements: ignoreExtraElements)
         } catch {
-            print("Error adding body to ResponseDefinition from file \(fileName): \(error.localizedDescription)")
+            print("Error adding body to StubMapping from file \(fileName): \(error.localizedDescription)")
         }
         return self
     }

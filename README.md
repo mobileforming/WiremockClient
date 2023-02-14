@@ -72,6 +72,16 @@ WiremockClient.postMapping(stubMapping:
 )
 ```
 
+WiremockClient also includes a convenience method for stubbing request JSON that is stored in a local file:
+
+```swift
+WiremockClient.postMapping(stubMapping:
+    StubMapping.stubFor(requestMethod: .ANY, urlMatchCondition: .urlEqualTo, url: "http://localhost:8080/my/path")
+        .withRequestBodyFromLocalJsonFile(fileName: "myFile", in: Bundle(for: type(of: self)))
+        .willReturn(ResponseDefinition())
+)
+```
+
 Mappings can also be prioritized as described in the ‘Stub priority’ section of the [Stubbing](http://wiremock.org/docs/stubbing/) documentation:
 
 ```swift

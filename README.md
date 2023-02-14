@@ -8,11 +8,18 @@ WiremockClient is an HTTP client that allows users to interact with a standalone
 
 ## Installation
 
-WiremockClient is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+WiremockClient is available through [CocoaPods](http://cocoapods.org) and [Swift Package Manager](https://swift.org/package-manager/).
+
+To install with CocoaPods, simply add the following line to your Podfile:
 
 ```ruby
 pod "WiremockClient"
+```
+
+To install with SwiftPM, add the following line to the `dependencies` section of your Package.swift:
+
+```swift
+.package(url: "https://github.com/mobileforming/WiremockClient", .upToNextMajor(from: Version(major: 2, minor: 2, patch: 0)))
 ```
 
 ## Usage
